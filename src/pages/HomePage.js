@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 
-const HomePage = () => {
+const HomePage = ({ contract, account, dimensions }) => {
   const containerstyle = {
-    width: "50%",
+    width: "95%",
     margin: "auto",
   };
   return (

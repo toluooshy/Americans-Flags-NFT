@@ -19,12 +19,39 @@ code {
     monospace;
 }
 
-.navbar a {
+.header a {
   color: #aaaaaa;
   text-align: center;
   text-decoration: none;
 }
 
-.navbar a:hover {
+.header a:hover {
   color: #ffffff;
+}
+
+.modal {
+  font-family: sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  padding: 5px;
+  color: #222222;
+  text-align: left;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  transition-duration: 0.2s;
+  cursor: pointer;
+  background-color: #ffffff;
+  border: solid #000;
+  font-family: SpaceMono, -apple-system, BlinkMacSystemFont, "Segoe UI",
+  "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+  "Helvetica Neue", sans-serif;
+}
+
+.modal a {
+  float: none;
+  padding: 0px;
+}
+.modal a:hover {
+  font-weight: bold;
 }

@@ -1,12 +1,23 @@
 import React, { useState } from "react";
+import axios from "axios";
 
-const FormUI = ({ submissionAction }) => {
+const FormUI = ({ setArrayImages, setSubmitted }) => {
   const [payload, setPayload] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    setSubmitted(true);
     e.preventDefault();
     alert(`Submitting URL ${payload}`);
-    submissionAction(payload);
+
+    await axios
+      .get(`https://image-grabber-api.herokuapp.com/grab/${payload}`)
+      .then((response) => {
+        setArrayImages([]);
+        setArrayImages(response.data);
+      })
+      .catch(() => {
+        console.log("Something went wrong.");
+      });
   };
 
   return (

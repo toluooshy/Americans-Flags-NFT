@@ -2,44 +2,42 @@ import React, { useState } from "react";
 import stars from "../images/stars.png";
 import stripes from "../images/stripes.png";
 
-const Flag = ({ stripesBackgroundImage, starsBackgroundImage }) => {
+const Flag = ({
+  width,
+  height = (3 * width) / 5,
+  starsBackgroundImage,
+  stripesBackgroundImage,
+}) => {
   const stripesstyle = {
     backgroundColor: "#770000",
     backgroundImage: `url(${stripesBackgroundImage})`,
-    backgroundSize: "125%",
-    position: "absolute",
-    width: 2026 / 4,
-    height: 1066 / 4,
-    top: 15,
-    left: 15,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    width: width,
+    height: height,
   };
 
   const borderstyle = {
     backgroundColor: "#ffffff",
-    position: "absolute",
-    width: 811 / 4 + 1,
-    height: 574 / 4 + 1,
-    top: 15,
-    left: 15,
+    width: width / 2,
+    height: (height * 7) / 13 + 1,
+    marginLeft: -width,
   };
 
   const starstyle = {
     backgroundColor: "#000077",
     backgroundImage: `url(${starsBackgroundImage})`,
-    backgroundSize: "125%",
-    position: "absolute",
-    width: 811 / 4,
-    height: 574 / 4,
-    top: 0,
-    left: 0,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    width: width / 2,
+    height: (height * 7) / 13,
+    marginLeft: -width / 2 - height / 13,
+    marginTop: -height / 13,
   };
 
   const flagstyle = {
-    backgroundColor: "#000077",
-    backgroundImage: `url(${starsBackgroundImage})`,
-    width: "fit-content",
-    height: 1066 / 4,
-    margin: "auto",
+    display: "flex",
+    marginLeft: width * 0.75 + height / 13,
   };
 
   return (
