@@ -11,9 +11,10 @@ const MintPage = ({ contract, account, dimensions }) => {
   const [stripesImageUrl, setStripesImageUrl] = useState("");
   const [starsImages, setStarsImages] = useState([]);
   const [stripesImages, setStripesImages] = useState([]);
+  const [description, setDescription] = useState("");
   const [starsLinkSubmitted, setStarsLinkSubmitted] = useState(false);
   const [stripesLinkSubmitted, setStripesLinkSubmitted] = useState(false);
-  const [tokenMetadataURI, setTokenMetadataURI] = useState(false);
+  const [tokenMetadataURIs, setTokenMetadataURIs] = useState([]);
   const [numTokens, setNumTokens] = useState(1);
 
   const containerstyle = {
@@ -28,28 +29,32 @@ const MintPage = ({ contract, account, dimensions }) => {
         return;
       }
       const totalSupply = Number(res);
-      const payload = {
-        id: totalSupply + 1,
-        stars:
-          starsImageUrl.length > 0
-            ? starsImageUrl
-            : "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/1200px-HD_transparent_picture.png",
-        stripes:
-          stripesImageUrl.length > 0
-            ? stripesImageUrl
-            : "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/1200px-HD_transparent_picture.png",
-        changesLeft: 3,
-      };
-
-      await axios
-        .post("https://flag-generator-api.herokuapp.com/generate", payload)
-        .then((response) => {
-          setTokenMetadataURI(response.data);
-        })
-        .catch(() => {
-          console.log("Something went wrong.");
-        });
-      if (!!tokenMetadataURI) {
+      for (let i = 1; i <= numTokens; i++) {
+        const payload = {
+          id: totalSupply + i,
+          stars:
+            starsImageUrl.length > 0
+              ? starsImageUrl
+              : "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/1200px-HD_transparent_picture.png",
+          stripes:
+            stripesImageUrl.length > 0
+              ? stripesImageUrl
+              : "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/1200px-HD_transparent_picture.png",
+          changesLeft: 3,
+        };
+        await axios
+          .post("https://flag-generator-api.herokuapp.com/generate", payload)
+          .then((response) => {
+            setTokenMetadataURIs((prevTokenMetadataURIs) => [
+              ...prevTokenMetadataURIs,
+              response.data,
+            ]);
+          })
+          .catch(() => {
+            console.log("Something went wrong.");
+          });
+      }
+      if (!!tokenMetadataURIs) {
         await contract.methods.cost().call(async (err, res) => {
           if (err) {
             console.log("An error occured", err);
@@ -60,9 +65,10 @@ const MintPage = ({ contract, account, dimensions }) => {
             .mint(
               account,
               numTokens,
-              tokenMetadataURI,
               starsImageUrl,
-              stripesImageUrl
+              stripesImageUrl,
+              description,
+              tokenMetadataURIs
             )
             .send(
               { value: numTokens * cost, from: account },
@@ -125,17 +131,33 @@ const MintPage = ({ contract, account, dimensions }) => {
           <h6 style={{ color: "#0c0" }}>{stripesImageUrl}</h6>
           <br />
           <h3>Step 3:</h3>
+          <h4>
+            Write a short excerpt about the description, story, or significance
+            of this flag:
+          </h4>
           <br />
           <Flag
             width={Math.min(dimensions.width * 0.75, 500)}
             starsBackgroundImage={starsImageUrl}
             stripesBackgroundImage={stripesImageUrl}
           />
-          <h4>
-            Select your desired number of copies of this flag configuration and
-            mint!
-          </h4>
-
+          <br />
+          <textarea
+            className="textInput"
+            style={{
+              width: "85%",
+              whiteSpace: "pre-wrap",
+            }}
+            type="text"
+            value={description}
+            placeholder="Write your flag description here..."
+            onChange={(event) => setDescription(event.target.value)}
+          />
+          <br />
+          <br />
+          <br />
+          <h3>Step 4:</h3>
+          <h4>Pick your desired number of copies for this flag and mint!</h4>
           <input
             type="number"
             value={numTokens}
@@ -154,7 +176,6 @@ const MintPage = ({ contract, account, dimensions }) => {
               ? "MINT FLAGS  🇺🇸🇺🇸"
               : "MINT FLAGS  🇺🇸🇺🇸🇺🇸"}
           </button>
-
           <br />
           <br />
         </div>

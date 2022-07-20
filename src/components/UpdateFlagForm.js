@@ -2,17 +2,10 @@ import React, { useState } from "react";
 import axios from "axios";
 import { TRUE_HEIGHT } from "../utils/Constants";
 
-const UpdateFlagForm = ({
-  width,
-  height,
-  top,
-  contract,
-  account,
-  dimensions,
-  tokenId,
-}) => {
+const UpdateFlagForm = ({ contract, account, tokenId }) => {
   const [starsImageUrl, setStarsImageUrl] = useState("");
   const [stripesImageUrl, setStripesImageUrl] = useState("");
+  const [tokenDescription, setTokenDescription] = useState("");
   const [tokenMetadataURI, setTokenMetadataURI] = useState(false);
   const [visibility, setVisibility] = useState(false);
 
@@ -110,6 +103,23 @@ const UpdateFlagForm = ({
             type="url"
             value={stripesImageUrl}
             onChange={(event) => setStripesImageUrl(event.target.value)}
+          />
+          <br />
+          <br />
+          <label
+            style={{
+              fontSize: "12px",
+              color: !!tokenDescription ? "#060" : "#b00",
+            }}
+          >
+            Flag Description:
+          </label>
+          <br />
+          <input
+            className="textInput"
+            type="text"
+            value={tokenDescription}
+            onChange={(event) => setTokenDescription(event.target.value)}
           />
           <br />
           <br />
