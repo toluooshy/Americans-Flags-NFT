@@ -23,6 +23,7 @@ const MintPage = ({ contract, account, dimensions }) => {
   };
 
   const handleMint = async () => {
+    setTokenMetadataURIs([]);
     await contract.methods.totalSupply().call(async (err, res) => {
       if (err) {
         console.log("An error occured", err);
@@ -40,12 +41,13 @@ const MintPage = ({ contract, account, dimensions }) => {
             stripesImageUrl.length > 0
               ? stripesImageUrl
               : "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/1200px-HD_transparent_picture.png",
+          description: description,
           changesLeft: 3,
         };
         await axios
           .post("https://flag-generator-api.herokuapp.com/generate", payload)
-          .then((response) => {
-            setTokenMetadataURIs((prevTokenMetadataURIs) => [
+          .then(async (response) => {
+            await setTokenMetadataURIs((prevTokenMetadataURIs) => [
               ...prevTokenMetadataURIs,
               response.data,
             ]);
@@ -54,7 +56,7 @@ const MintPage = ({ contract, account, dimensions }) => {
             console.log("Something went wrong.");
           });
       }
-      if (!!tokenMetadataURIs) {
+      if (tokenMetadataURIs.length > 0) {
         await contract.methods.cost().call(async (err, res) => {
           if (err) {
             console.log("An error occured", err);
