@@ -18,8 +18,6 @@ const ViewPage = ({ contract, account, dimensions }) => {
     margin: "auto",
   };
 
-  console.log(dimensions.width * 0.6);
-
   useEffect(() => {
     !!account && getTokens();
   }, []);
@@ -32,7 +30,6 @@ const ViewPage = ({ contract, account, dimensions }) => {
         return;
       }
       const userTokenIndexes = res.map((i) => Number(i));
-      console.log(userTokenIndexes);
       for (let i = 0; i < userTokenIndexes.length; i++) {
         await contract.methods
           .flags(userTokenIndexes[i])

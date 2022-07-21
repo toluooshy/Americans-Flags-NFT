@@ -33,7 +33,6 @@ function App() {
               response.data["Root Request"] === 200 ? true : false;
 
             setApisReady(grabberApiRunning && generatorApiRunning);
-            console.log(apisReady);
           });
       });
   }, []);
