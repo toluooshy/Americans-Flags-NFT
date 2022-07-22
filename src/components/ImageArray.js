@@ -25,11 +25,11 @@ const ImageArray = ({ setSelection, imgs, submitted }) => {
                 }}
                 onClick={() => {
                   setSelectedIndex(index);
-                  setSelection(img);
+                  setSelection(img[0]);
                 }}
               >
                 <img
-                  src={img}
+                  src={img[0]}
                   height="200px"
                   style={{ padding: "10px" }}
                   onError={({ currentTarget }) => {
@@ -37,6 +37,23 @@ const ImageArray = ({ setSelection, imgs, submitted }) => {
                     currentTarget.style.display = "none";
                   }}
                 />
+                <div>
+                  <p
+                    style={{
+                      color: "#ffffff",
+                      width: "auto",
+                      fontSize: "10px",
+                      inlineSize: "min-content",
+                      wordWrap: "break-word",
+                      overflowWrap: "break-word",
+                      hyphens: "manual",
+                      padding: "0px 12px",
+                    }}
+                  >
+                    {img[1] || `\b`}
+                  </p>
+                  <br />
+                </div>
               </div>
             );
           })
