@@ -27,12 +27,12 @@ const TransferFlagForm = ({ contract, account, tokenId }) => {
           setVisibility(!visibility);
         }}
       >
-        {!!visibility ? ">" : "^"}
+        {!!visibility ? "^" : ">"}
       </button>
 
       {!!visibility && (
-        <div style={{ textAlign: "center" }}>
-          <h4>Transfer Flag #{tokenId}:</h4>
+        <div style={{ textAlign: "center", backgroundColor: "#222" }}>
+          <p className="text">Transfer Flag #{tokenId}:</p>
           <label
             style={{
               fontSize: "12px",

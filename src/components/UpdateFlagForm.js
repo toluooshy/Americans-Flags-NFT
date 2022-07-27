@@ -81,7 +81,7 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
           setVisibility(!visibility);
         }}
       >
-        {!!visibility ? ">" : "^"}
+        {!!visibility ? "^" : ">"}
       </button>
 
       {!!visibility && (
@@ -93,7 +93,7 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
             backgroundColor: "#222",
           }}
         >
-          <h5>Update Flag #{tokenId}:</h5>
+          <p className="text">Update Flag #{tokenId}:</p>
 
           <FormUI
             setArrayImages={setStarsImages}
@@ -102,7 +102,9 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
             setIsLoading={setIsStarsLoading}
           />
           <br />
-          <h6>Stars Background Image Title: {starsImageTitle}</h6>
+          <p className="text">
+            Stars Background Image Title: {starsImageTitle}
+          </p>
           <ImageArray
             selection={starsImageUrl}
             setImageSelection={setStarsImageUrl}
@@ -118,11 +120,11 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
             }}
           >
             <div style={{ flex: "1" }}>
-              <h6>Selected Stars Background Image Url:</h6>
+              <p className="text">Selected Stars Background Image Url:</p>
               <p style={{ fontSize: "8px", color: "#0c0" }}>{starsImageUrl}</p>
             </div>
             <div style={{ flex: "1" }}>
-              <h6>Selected Stars Background Image Summary:</h6>
+              <p className="text">Selected Stars Background Image Summary:</p>
               <p style={{ fontSize: "8px", color: "#0c0" }}>
                 {starsImageSummary}
               </p>
@@ -136,7 +138,9 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
             setIsLoading={setIsStripesLoading}
           />
           <br />
-          <h6>Stripes Background Image Title: {stripesImageTitle}</h6>
+          <p className="text">
+            Stripes Background Image Title: {stripesImageTitle}
+          </p>
           <ImageArray
             selection={stripesImageUrl}
             setImageSelection={setStripesImageUrl}
@@ -152,13 +156,13 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
             }}
           >
             <div style={{ flex: "1" }}>
-              <h6>Selected Stripes Background Image Url:</h6>
+              <p className="text">Selected Stripes Background Image Url:</p>
               <p style={{ fontSize: "8px", color: "#0c0" }}>
                 {stripesImageUrl}
               </p>
             </div>
             <div style={{ flex: "1" }}>
-              <h6>Selected Stripes Background Image Summary:</h6>
+              <p className="text">Selected Stripes Background Image Summary:</p>
               <p style={{ fontSize: "8px", color: "#0c0" }}>
                 {stripesImageSummary}
               </p>

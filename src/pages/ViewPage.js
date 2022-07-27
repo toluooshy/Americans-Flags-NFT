@@ -5,6 +5,7 @@ import axios from "axios";
 import UpdateFlagForm from "../components/UpdateFlagForm";
 import TransferFlagForm from "../components/TransferFlagForm";
 import LoadingObject from "../components/LoadingObject";
+import { DESKTOP_MIN } from "../utils/Constants";
 
 const ViewPage = ({ contract, account, dimensions }) => {
   const [userTokens, setUserTokens] = useState([]);
@@ -134,66 +135,121 @@ const ViewPage = ({ contract, account, dimensions }) => {
           tokensList.map((token, index) => {
             console.log(token);
             return (
-              <div key={index} style={{ display: "flex" }}>
+              <div
+                key={index}
+                style={{
+                  display: dimensions.width < DESKTOP_MIN ? "block" : "flex",
+                  border: "2px solid #000",
+                  padding: "5px",
+                  margin: "15px auto",
+                }}
+              >
+                {dimensions.width < DESKTOP_MIN && (
+                  <img
+                    src={token[1].image}
+                    style={{
+                      padding: "10px",
+                      height: `${dimensions.width * 0.5}px`,
+                    }}
+                  />
+                )}
                 <div style={{ flex: "1", textAlign: "left" }}>
                   <h4>
                     {token[1].name || "Untitled"} [{token[1].edition} Edition]
                   </h4>
                   <h5>{token[1].description || "-"}</h5>
                   <h6>
-                    Owner:{" "}
-                    {`${token[0]} ${token[0] === account ? "(you)" : ""}`}
+                    {`Owner ${token[0]} ${token[0] === account ? "(you)" : ""}`}
                   </h6>
-                  <p style={{ fontSize: "10px" }}>
+                  <p
+                    style={{
+                      fontSize: "55%",
+                      fontStyle: "italic",
+                      fontWeight: "bold",
+                    }}
+                  >
                     Flag Status: {token[1].attributes[0].value || "-"}
                   </p>
-                  <p style={{ fontSize: "10px" }}>
-                    Stars Background Image Url:{" "}
-                    {token[1].attributes[1].value || "-"}
-                  </p>
-                  <p style={{ fontSize: "10px" }}>
-                    Stars Background Image Title:{" "}
-                    {token[1].attributes[2].value || "-"}
-                  </p>
-                  <p style={{ fontSize: "10px" }}>
-                    Stars Background Image Summary:{" "}
-                    {token[1].attributes[3].value || "-"}
-                  </p>
-                  <p style={{ fontSize: "10px" }}>
-                    Stripes Background Image Url:{" "}
-                    {token[1].attributes[4].value || "-"}
-                  </p>
-                  <p style={{ fontSize: "10px" }}>
-                    Stripes Background Image Title:{" "}
-                    {token[1].attributes[5].value || "-"}
-                  </p>
-                  <p style={{ fontSize: "10px" }}>
-                    Stripes Background Image Summary:{" "}
-                    {token[1].attributes[6].value || "-"}
-                  </p>
+                  <div style={{ display: "flex" }}>
+                    <div style={{ flex: "1", padding: "0px 5px 0px 0px" }}>
+                      <p className="text">Stars Background Image Title: </p>
+                      <p
+                        style={{
+                          fontSize: "50%",
+                          fontStyle: "italic",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {token[1].attributes[2].value || "-"}
+                      </p>
+                    </div>
+                    <div style={{ flex: "1", padding: "0px 5px 0px 0px" }}>
+                      <p className="text">Stars Background Image Summary: </p>
+                      <p
+                        style={{
+                          fontSize: "50%",
+                          fontStyle: "italic",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {token[1].attributes[3].value || "-"}
+                      </p>
+                    </div>
+                  </div>
+                  <div style={{ display: "flex" }}>
+                    <div style={{ flex: "1", padding: "0px 5px 0px 0px" }}>
+                      <p className="text">Stripes Background Image Title: </p>
+                      <p
+                        style={{
+                          fontSize: "50%",
+                          fontStyle: "italic",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {token[1].attributes[5].value || "-"}
+                      </p>
+                    </div>
+                    <div style={{ flex: "1", padding: "0px 5px 0px 0px" }}>
+                      <p className="text">Stripes Background Image Summary: </p>
+                      <p
+                        style={{
+                          fontSize: "50%",
+                          fontStyle: "italic",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        {token[1].attributes[6].value || "-"}
+                      </p>
+                    </div>
+                  </div>
 
-                  <UpdateFlagForm
-                    contract={contract}
-                    account={account}
-                    tokenId={token[1].id}
-                    dimensions={dimensions}
-                  />
-                  <TransferFlagForm
-                    contract={contract}
-                    account={account}
-                    dimensions={dimensions}
-                    tokenId={token[1].id}
-                  />
+                  {token[0] === account && (
+                    <div>
+                      <UpdateFlagForm
+                        contract={contract}
+                        account={account}
+                        tokenId={token[1].id}
+                        dimensions={dimensions}
+                      />
+                      <TransferFlagForm
+                        contract={contract}
+                        account={account}
+                        dimensions={dimensions}
+                        tokenId={token[1].id}
+                      />{" "}
+                    </div>
+                  )}
                 </div>
-
-                <img
-                  src={token[1].image}
-                  style={{
-                    flex: "1",
-                    padding: "10px",
-                    height: `${(dimensions.width * 0.5 * 3) / 5}px`,
-                  }}
-                />
+                {dimensions.width > DESKTOP_MIN && (
+                  <img
+                    src={token[1].image}
+                    style={{
+                      flex: "1",
+                      padding: "10px",
+                      height: `${(dimensions.width * 0.5 * 3) / 5}px`,
+                    }}
+                  />
+                )}
               </div>
             );
           })

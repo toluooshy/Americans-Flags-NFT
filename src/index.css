@@ -35,6 +35,7 @@ code {
     "Helvetica Neue", sans-serif;
   background-color: #000;
   border: none;
+  border-radius: 0%;
   color: #fff;
   padding: 42x 8px;
   text-align: center;
@@ -55,6 +56,10 @@ code {
 .button1:hover {
   background-color: #000;
   color: #fff;
+}
+
+.text {
+  font-size: 50%;
 }
 
 .modal {
