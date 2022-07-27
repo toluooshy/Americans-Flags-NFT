@@ -1,7 +1,7 @@
 import React from "react";
 import loading from "../images/loading.gif";
 
-const LoadingObject = () => {
+const LoadingObject = ({ size }) => {
   const style = { margin: "auto", filter: "brightness(0)" };
   return (
     <>
@@ -9,8 +9,8 @@ const LoadingObject = () => {
         style={style}
         src={loading}
         alt={"loading"}
-        width={"33%"}
-        height={"33%"}
+        width={size || "33%"}
+        height={size || "33%"}
       />
     </>
   );

@@ -6,6 +6,7 @@ import Flag from "../components/Flag";
 import ImageArray from "../components/ImageArray";
 import axios from "axios";
 import { DESKTOP_MIN } from "../utils/Constants";
+import LoadingObject from "../components/LoadingObject";
 
 const MintPage = ({ contract, account, dimensions }) => {
   const [starsImageUrl, setStarsImageUrl] = useState("");
@@ -21,8 +22,18 @@ const MintPage = ({ contract, account, dimensions }) => {
   const [stripesLinkSubmitted, setStripesLinkSubmitted] = useState(false);
   const [isStarsLoading, setIsStarsLoading] = useState(false);
   const [isStripesLoading, setIsStripesLoading] = useState(false);
+  const [isMintLoading, setIsMintLoading] = useState(false);
   const [tokenMetadataURIs, setTokenMetadataURIs] = useState([]);
   const [numTokens, setNumTokens] = useState(1);
+
+  const isValid =
+    starsImageUrl &&
+    stripesImageUrl &&
+    starsImageTitle &&
+    stripesImageTitle &&
+    starsImageSummary &&
+    stripesImageSummary &&
+    description;
 
   const containerstyle = {
     width: "95%",
@@ -30,6 +41,7 @@ const MintPage = ({ contract, account, dimensions }) => {
   };
 
   const handleMint = async () => {
+    setIsMintLoading(true);
     setTokenMetadataURIs([]);
     await contract.methods.totalSupply().call(async (err, res) => {
       if (err) {
@@ -90,14 +102,17 @@ const MintPage = ({ contract, account, dimensions }) => {
               async (err, res) => {
                 if (err) {
                   console.log("An error occured", err);
+                  setIsMintLoading(false);
                   return;
                 }
                 alert(`Transaction Received!\nTransaction Hash: ${res}`);
+                setIsMintLoading(false);
               }
             );
         });
       } else {
         alert("Error processing flag metadata. Please try again.");
+        setIsMintLoading(false);
       }
     });
   };
@@ -215,7 +230,7 @@ const MintPage = ({ contract, account, dimensions }) => {
             onChange={(event) => setNumTokens(event.target.value)}
           />
           <button
-            className="button button1"
+            className={isValid ? "button button1" : "button disabled"}
             onClick={() => {
               !!account
                 ? handleMint(numTokens)
@@ -230,6 +245,9 @@ const MintPage = ({ contract, account, dimensions }) => {
               ? "MINT FLAGS  🇺🇸🇺🇸"
               : "MINT FLAGS  🇺🇸🇺🇸🇺🇸"}
           </button>
+          <div style={{ textAlign: "center" }}>
+            {isMintLoading && <LoadingObject size="15%" />}
+          </div>
           <br />
           <br />
         </div>

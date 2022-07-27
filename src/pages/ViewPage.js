@@ -116,7 +116,7 @@ const ViewPage = ({ contract, account, dimensions }) => {
               );
         }}
       >
-        VIEW MY FLAGS
+        VIEW MY FLAGS 📒
       </button>
 
       <button
@@ -125,7 +125,7 @@ const ViewPage = ({ contract, account, dimensions }) => {
           getGlobalTokens();
         }}
       >
-        VIEW ALL FLAGS
+        VIEW ALL FLAGS 🌎
       </button>
 
       <div>

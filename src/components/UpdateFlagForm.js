@@ -4,6 +4,7 @@ import Flag from "../components/Flag";
 import ImageArray from "../components/ImageArray";
 import axios from "axios";
 import { DESKTOP_MIN } from "../utils/Constants";
+import LoadingObject from "./LoadingObject";
 
 const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
   const [starsImageUrl, setStarsImageUrl] = useState("");
@@ -19,11 +20,21 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
   const [stripesLinkSubmitted, setStripesLinkSubmitted] = useState(false);
   const [isStarsLoading, setIsStarsLoading] = useState(false);
   const [isStripesLoading, setIsStripesLoading] = useState(false);
-  const [tokenDescription, setTokenDescription] = useState("");
+  const [isUpdateLoading, setIsUpdateLoading] = useState(false);
   const [tokenMetadataURI, setTokenMetadataURI] = useState(false);
   const [visibility, setVisibility] = useState(false);
 
+  const isValid =
+    starsImageUrl &&
+    stripesImageUrl &&
+    starsImageTitle &&
+    stripesImageTitle &&
+    starsImageSummary &&
+    stripesImageSummary &&
+    description;
+
   const handleUpdate = async () => {
+    setIsUpdateLoading(true);
     await contract.methods.flags(tokenId).call(async (err, res) => {
       if (err) {
         console.log("An error occured", err);
@@ -57,17 +68,25 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
             tokenId,
             starsImageUrl,
             stripesImageUrl,
+            starsImageTitle,
+            stripesImageTitle,
+            starsImageSummary,
+            stripesImageSummary,
+            description,
             tokenMetadataURI
           )
           .send({ from: account }, async (err, res) => {
             if (err) {
               console.log("An error occured", err);
+              setIsUpdateLoading(false);
               return;
             }
             alert(`Transaction Received!\nTransaction Hash: ${res}`);
+            setIsUpdateLoading(false);
           });
       } else {
         alert("Error processing flag metadata. Please try again.");
+        setIsUpdateLoading(false);
       }
     });
   };
@@ -81,7 +100,7 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
           setVisibility(!visibility);
         }}
       >
-        {!!visibility ? "^" : ">"}
+        {!!visibility ? "^" : "UPDATE FLAG >"}
       </button>
 
       {!!visibility && (
@@ -93,8 +112,10 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
             backgroundColor: "#222",
           }}
         >
-          <p className="text">Update Flag #{tokenId}:</p>
-
+          <p>Update Flag #{tokenId}:</p>
+          <p className="text">
+            Grab Stars Background Images: {starsImageTitle}
+          </p>
           <FormUI
             setArrayImages={setStarsImages}
             setImageTitle={setStarsImageTitle}
@@ -130,7 +151,9 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
               </p>
             </div>
           </div>
-
+          <p className="text">
+            Grab Stripes Background Images: {starsImageTitle}
+          </p>
           <FormUI
             setArrayImages={setStripesImages}
             setImageTitle={setStripesImageTitle}
@@ -175,20 +198,16 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
             stripesBackgroundImage={stripesImageUrl}
             borderColor="#222"
           />
-
-          <br />
-          <br />
-          <br />
-          <br />
           <br />
           <label
             style={{
-              fontSize: "12px",
-              color: !!tokenDescription ? "#060" : "#b00",
+              fontSize: "10px",
+              color: !!description ? "#0c0" : "#ff4444",
             }}
           >
             New Flag Description:
           </label>
+          <br />
           <br />
           <textarea
             className="textInput"
@@ -204,13 +223,16 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
           <br />
           <br />
           <button
-            className="button button1"
+            className={isValid ? "button button1" : "button disabled"}
             onClick={() => {
               handleUpdate();
             }}
           >
-            UPDATE FLAG
+            UPDATE FLAG 🪡
           </button>
+          <div style={{ textAlign: "center" }}>
+            {isUpdateLoading && <LoadingObject size="15%" />}
+          </div>
         </div>
       )}
     </div>

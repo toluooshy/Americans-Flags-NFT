@@ -54,7 +54,7 @@ const ImageArray = ({
                   style={{
                     color: "#ffffff",
                     width: "auto",
-                    fontSize: "10px",
+                    fontSize: "50%",
                     inlineSize: "min-content",
                     wordWrap: "break-word",
                     overflowWrap: "break-word",

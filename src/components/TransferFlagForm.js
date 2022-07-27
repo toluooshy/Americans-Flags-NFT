@@ -27,7 +27,7 @@ const TransferFlagForm = ({ contract, account, tokenId }) => {
           setVisibility(!visibility);
         }}
       >
-        {!!visibility ? "^" : ">"}
+        {!!visibility ? "^" : "TRANSFER FLAG >"}
       </button>
 
       {!!visibility && (
