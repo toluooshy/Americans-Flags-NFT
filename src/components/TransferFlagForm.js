@@ -31,8 +31,14 @@ const TransferFlagForm = ({ contract, account, tokenId }) => {
       </button>
 
       {!!visibility && (
-        <div style={{ textAlign: "center", backgroundColor: "#222" }}>
-          <p className="text">Transfer Flag #{tokenId}:</p>
+        <div
+          style={{
+            color: "#eeeeee",
+            textAlign: "center",
+            backgroundColor: "#222",
+          }}
+        >
+          <p>Transfer Flag #{tokenId}:</p>
           <label
             style={{
               fontSize: "12px",
