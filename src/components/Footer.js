@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import Web3 from "web3";
 
 const Footer = ({ web3, contract, account, dimensions }) => {
   const [currentPage, setCurrentPage] = useState();

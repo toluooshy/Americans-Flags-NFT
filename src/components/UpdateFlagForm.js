@@ -1,10 +1,23 @@
 import React, { useState } from "react";
+import FormUI from "../components/FormUI";
+import Flag from "../components/Flag";
+import ImageArray from "../components/ImageArray";
 import axios from "axios";
-import { TRUE_HEIGHT } from "../utils/Constants";
+import { DESKTOP_MIN } from "../utils/Constants";
 
-const UpdateFlagForm = ({ contract, account, tokenId }) => {
+const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
   const [starsImageUrl, setStarsImageUrl] = useState("");
   const [stripesImageUrl, setStripesImageUrl] = useState("");
+  const [starsImageTitle, setStarsImageTitle] = useState("");
+  const [stripesImageTitle, setStripesImageTitle] = useState("");
+  const [starsImageSummary, setStarsImageSummary] = useState("");
+  const [stripesImageSummary, setStripesImageSummary] = useState("");
+  const [starsImages, setStarsImages] = useState([]);
+  const [stripesImages, setStripesImages] = useState([]);
+  const [description, setDescription] = useState("");
+  const [starsLinkSubmitted, setStarsLinkSubmitted] = useState(false);
+  const [stripesLinkSubmitted, setStripesLinkSubmitted] = useState(false);
+
   const [tokenDescription, setTokenDescription] = useState("");
   const [tokenMetadataURI, setTokenMetadataURI] = useState(false);
   const [visibility, setVisibility] = useState(false);
@@ -70,40 +83,92 @@ const UpdateFlagForm = ({ contract, account, tokenId }) => {
       </button>
 
       {!!visibility && (
-        <div style={{ textAlign: "center" }}>
-          <h4>Update Flag #{tokenId}:</h4>
-          <label
-            style={{
-              fontSize: "12px",
-              color: !!starsImageUrl ? "#060" : "#b00",
-            }}
-          >
-            Stars URL:
-          </label>
-          <br />
-          <input
-            className="textInput"
-            type="url"
-            value={starsImageUrl}
-            onChange={(event) => setStarsImageUrl(event.target.value)}
+        <div
+          style={{
+            color: "#eeeeee",
+            textAlign: "center",
+            padding: "1px",
+            backgroundColor: "#222",
+          }}
+        >
+          <h5>Update Flag #{tokenId}:</h5>
+
+          <FormUI
+            setArrayImages={setStarsImages}
+            setImageTitle={setStarsImageTitle}
+            setSubmitted={setStarsLinkSubmitted}
           />
           <br />
-          <br />
-          <label
+          <h6>Stars Background Image Title: {starsImageTitle}</h6>
+          <ImageArray
+            selection={starsImageUrl}
+            setImageSelection={setStarsImageUrl}
+            setSummarySelection={setStarsImageSummary}
+            imgs={starsImages}
+            submitted={starsLinkSubmitted}
+            width={dimensions.width * 0.4}
+          />
+          <div
             style={{
-              fontSize: "12px",
-              color: !!stripesImageUrl ? "#060" : "#b00",
+              display: dimensions.width > DESKTOP_MIN ? "flex" : "block",
             }}
           >
-            Stripes URL:
-          </label>
-          <br />
-          <input
-            className="textInput"
-            type="url"
-            value={stripesImageUrl}
-            onChange={(event) => setStripesImageUrl(event.target.value)}
+            <div style={{ flex: "1" }}>
+              <h6>Selected Stars Background Image Url:</h6>
+              <p style={{ fontSize: "8px", color: "#0c0" }}>{starsImageUrl}</p>
+            </div>
+            <div style={{ flex: "1" }}>
+              <h6>Selected Stars Background Image Summary:</h6>
+              <p style={{ fontSize: "8px", color: "#0c0" }}>
+                {starsImageSummary}
+              </p>
+            </div>
+          </div>
+
+          <FormUI
+            setArrayImages={setStripesImages}
+            setImageTitle={setStripesImageTitle}
+            setSubmitted={setStripesLinkSubmitted}
           />
+          <br />
+          <h6>Stripes Background Image Title: {stripesImageTitle}</h6>
+          <ImageArray
+            selection={stripesImageUrl}
+            setImageSelection={setStripesImageUrl}
+            setSummarySelection={setStripesImageSummary}
+            imgs={stripesImages}
+            submitted={stripesLinkSubmitted}
+            width={dimensions.width * 0.4}
+          />
+          <div
+            style={{
+              display: dimensions.width > DESKTOP_MIN ? "flex" : "block",
+            }}
+          >
+            <div style={{ flex: "1" }}>
+              <h6>Selected Stripes Background Image Url:</h6>
+              <p style={{ fontSize: "8px", color: "#0c0" }}>
+                {stripesImageUrl}
+              </p>
+            </div>
+            <div style={{ flex: "1" }}>
+              <h6>Selected Stripes Background Image Summary:</h6>
+              <p style={{ fontSize: "8px", color: "#0c0" }}>
+                {stripesImageSummary}
+              </p>
+            </div>
+          </div>
+
+          <Flag
+            width={Math.min(dimensions.width * 0.6, 300)}
+            starsBackgroundImage={starsImageUrl}
+            stripesBackgroundImage={stripesImageUrl}
+            borderColor="#222"
+          />
+
+          <br />
+          <br />
+          <br />
           <br />
           <br />
           <label
@@ -112,14 +177,19 @@ const UpdateFlagForm = ({ contract, account, tokenId }) => {
               color: !!tokenDescription ? "#060" : "#b00",
             }}
           >
-            Flag Description:
+            New Flag Description:
           </label>
           <br />
-          <input
+          <textarea
             className="textInput"
+            style={{
+              width: "85%",
+              whiteSpace: "pre-wrap",
+            }}
             type="text"
-            value={tokenDescription}
-            onChange={(event) => setTokenDescription(event.target.value)}
+            value={description}
+            placeholder="Write your flag description here..."
+            onChange={(event) => setDescription(event.target.value)}
           />
           <br />
           <br />

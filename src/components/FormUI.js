@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const FormUI = ({ setArrayImages, setSubmitted }) => {
+const FormUI = ({ setArrayImages, setImageTitle, setSubmitted }) => {
   const [url, setUrl] = useState("");
 
   const handleSubmit = async (e) => {
@@ -15,9 +15,9 @@ const FormUI = ({ setArrayImages, setSubmitted }) => {
     await axios
       .post("https://image-grabber-api.herokuapp.com/grab", payload)
       .then((response) => {
-        console.log(response.data);
         setArrayImages([]);
-        setArrayImages(response.data);
+        setArrayImages(response.data.images);
+        setImageTitle(response.data.title || "No Title");
       })
       .catch(() => {
         console.log("Something went wrong.");

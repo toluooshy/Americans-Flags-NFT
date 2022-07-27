@@ -1,19 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { TRUE_HEIGHT } from "../utils/Constants";
 
-const TransferFlagForm = ({
-  width,
-  height,
-  top,
-  contract,
-  account,
-  dimensions,
-  tokenId,
-}) => {
+const TransferFlagForm = ({ contract, account, tokenId }) => {
   const [recipientAddress, setRecipientAddress] = useState("");
-  const [stripesImageUrl, setStripesImageUrl] = useState("");
-  const [tokenMetadataURI, setTokenMetadataURI] = useState(false);
   const [visibility, setVisibility] = useState(false);
 
   const handleTransfer = async () => {

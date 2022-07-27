@@ -7,7 +7,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract AmericansFlagsNFTtestv4 is ERC721Enumerable, Ownable {
+contract AmericansFlagsNFTtestv5 is ERC721Enumerable, Ownable {
     using Strings for uint256;
 
     uint256 public cost;
@@ -19,6 +19,10 @@ contract AmericansFlagsNFTtestv4 is ERC721Enumerable, Ownable {
     struct Flag {
         string starsUrl;
         string stripesUrl;
+        string starsTitle;
+        string stripesTitle;
+        string starsSummary;
+        string stripesSummary;
         string description;
         string URI;
         uint256 changesLeft;
@@ -37,6 +41,10 @@ contract AmericansFlagsNFTtestv4 is ERC721Enumerable, Ownable {
         uint256 _mintAmount,
         string memory _starsUrl,
         string memory _stripesUrl,
+        string memory _starsTitle,
+        string memory _stripesTitle,
+        string memory _starsSummary,
+        string memory _stripesSummary,
         string memory _description,
         string[] memory _URIs
     ) public payable {
@@ -54,6 +62,10 @@ contract AmericansFlagsNFTtestv4 is ERC721Enumerable, Ownable {
             uint256 index = supply + i + 1;
             flags[index].starsUrl = _starsUrl;
             flags[index].stripesUrl = _stripesUrl;
+            flags[index].starsTitle = _starsTitle;
+            flags[index].stripesTitle = _stripesTitle;
+            flags[index].starsSummary = _starsSummary;
+            flags[index].stripesSummary = _stripesSummary;
             flags[index].description = _description;
             flags[index].URI = _URIs[i];
             flags[index].changesLeft = 3;
@@ -94,6 +106,10 @@ contract AmericansFlagsNFTtestv4 is ERC721Enumerable, Ownable {
         uint256 _tokenId,
         string memory _starsUrl,
         string memory _stripesUrl,
+        string memory _starsTitle,
+        string memory _stripesTitle,
+        string memory _starsSummary,
+        string memory _stripesSummary,
         string memory _description,
         string memory _URI
     ) public {
@@ -107,6 +123,10 @@ contract AmericansFlagsNFTtestv4 is ERC721Enumerable, Ownable {
         );
         flags[_tokenId].starsUrl = _starsUrl;
         flags[_tokenId].stripesUrl = _stripesUrl;
+        flags[_tokenId].starsTitle = _starsTitle;
+        flags[_tokenId].stripesTitle = _stripesTitle;
+        flags[_tokenId].starsSummary = _starsSummary;
+        flags[_tokenId].stripesSummary = _stripesSummary;
         flags[_tokenId].description = _description;
         flags[_tokenId].URI = _URI;
         flags[_tokenId].changesLeft = flags[_tokenId].changesLeft - 1;

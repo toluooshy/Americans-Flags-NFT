@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 
-const ImageArray = ({ setSelection, imgs, submitted }) => {
+const ImageArray = ({
+  setImageSelection,
+  setSummarySelection,
+  imgs,
+  submitted,
+  width,
+}) => {
   const [selectedIndex, setSelectedIndex] = useState("");
 
   return (
@@ -9,6 +15,8 @@ const ImageArray = ({ setSelection, imgs, submitted }) => {
         display: "flex",
         overflowX: "auto",
         whiteSpace: "nowrap",
+        width: width || "100%",
+        margin: "auto",
       }}
     >
       {imgs.length > 0
@@ -25,12 +33,13 @@ const ImageArray = ({ setSelection, imgs, submitted }) => {
                 }}
                 onClick={() => {
                   setSelectedIndex(index);
-                  setSelection(img[0]);
+                  setImageSelection(img[0]);
+                  setSummarySelection(img[1]);
                 }}
               >
                 <img
                   src={img[0]}
-                  height="200px"
+                  height={`${width * 0.15 || 200}px`}
                   style={{ padding: "10px" }}
                   onError={({ currentTarget }) => {
                     currentTarget.onerror = null;

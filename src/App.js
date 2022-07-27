@@ -12,7 +12,7 @@ import { useWindowDimensions } from "./utils/CustomHooks";
 import axios from "axios";
 
 const web3 = new Web3(Web3.givenProvider);
-const contractAddress = "0xa91F47d0681657c02dCee9D0328152893968000B";
+const contractAddress = "0xDC0D2728D9f836Cb89F95E9CE7F5f01a021F8b1E";
 const contract = new web3.eth.Contract(ContractABI, contractAddress);
 
 function App() {
