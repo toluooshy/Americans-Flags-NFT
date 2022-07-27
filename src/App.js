@@ -10,6 +10,7 @@ import Web3 from "web3";
 import { ContractABI } from "./contracts/AFN_Contract/AFN_Contract_abi";
 import { useWindowDimensions } from "./utils/CustomHooks";
 import axios from "axios";
+import LoadingObject from "./components/LoadingObject";
 
 const web3 = new Web3(Web3.givenProvider);
 const contractAddress = "0xDC0D2728D9f836Cb89F95E9CE7F5f01a021F8b1E";
@@ -80,7 +81,7 @@ function App() {
           />
         </Routes>
       ) : (
-        <h1>LOADING...</h1>
+        <LoadingObject />
       )}
       <Footer contract={contract} account={account} dimensions={dimensions} />
     </div>

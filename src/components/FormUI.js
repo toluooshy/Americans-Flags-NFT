@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const FormUI = ({ setArrayImages, setImageTitle, setSubmitted }) => {
+const FormUI = ({
+  setArrayImages,
+  setImageTitle,
+  setSubmitted,
+  setIsLoading,
+}) => {
   const [url, setUrl] = useState("");
 
   const handleSubmit = async (e) => {
+    setIsLoading(true);
     setSubmitted(true);
     e.preventDefault();
     alert(`Submitting URL ${url}`);
@@ -22,6 +28,7 @@ const FormUI = ({ setArrayImages, setImageTitle, setSubmitted }) => {
       .catch(() => {
         console.log("Something went wrong.");
       });
+    setIsLoading(false);
   };
 
   return (
@@ -33,7 +40,7 @@ const FormUI = ({ setArrayImages, setImageTitle, setSubmitted }) => {
           onChange={(e) => setUrl(e.target.value)}
         />
       </label>
-      <input type="submit" value="Submit" />
+      <input className="button button1" type="submit" value="SUBMIT ✅" />
     </form>
   );
 };

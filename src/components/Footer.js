@@ -1,18 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-const Footer = ({ web3, contract, account, dimensions }) => {
-  const [currentPage, setCurrentPage] = useState();
-  const style = {
-    color: "#ffffff",
-    backgroundColor: "#040404",
-    margin: "auto",
-    display: "flex",
-    justifyContent: "space-around",
-    textDecoration: "none",
-    fontSize: "20px",
-    boxShadow: "0px 5px #000000",
-  };
-
+const Footer = () => {
   return (
     <>
       <div

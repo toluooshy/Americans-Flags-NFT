@@ -39,7 +39,7 @@ const Flag = ({
 
   const flagstyle = {
     display: "flex",
-    marginLeft: `calc(50% - ${width / 2 - 6.5}px)`,
+    marginLeft: `calc(50% - ${width / 2.002}px)`,
   };
 
   return (

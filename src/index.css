@@ -29,12 +29,40 @@ code {
   color: #ffffff;
 }
 
+.button {
+  font-family: SpaceMono, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
+  background-color: #000;
+  border: none;
+  color: #fff;
+  padding: 42x 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  margin: 6px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+}
+
+.button1 {
+  background-color: #fff; 
+  color: #000; 
+  border: 2px solid #000;
+}
+
+.button1:hover {
+  background-color: #000;
+  color: #fff;
+}
+
 .modal {
   font-family: sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
     "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
     "Helvetica Neue", sans-serif;
   padding: 5px;
-  color: #222222;
+  color: #000;
   text-align: left;
   text-decoration: none;
   display: inline-block;

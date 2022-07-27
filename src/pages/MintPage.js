@@ -19,6 +19,8 @@ const MintPage = ({ contract, account, dimensions }) => {
   const [description, setDescription] = useState("");
   const [starsLinkSubmitted, setStarsLinkSubmitted] = useState(false);
   const [stripesLinkSubmitted, setStripesLinkSubmitted] = useState(false);
+  const [isStarsLoading, setIsStarsLoading] = useState(false);
+  const [isStripesLoading, setIsStripesLoading] = useState(false);
   const [tokenMetadataURIs, setTokenMetadataURIs] = useState([]);
   const [numTokens, setNumTokens] = useState(1);
 
@@ -114,6 +116,7 @@ const MintPage = ({ contract, account, dimensions }) => {
             setArrayImages={setStarsImages}
             setImageTitle={setStarsImageTitle}
             setSubmitted={setStarsLinkSubmitted}
+            setIsLoading={setIsStarsLoading}
           />
           <br />
           <h5>Stars Background Image Title: {starsImageTitle}</h5>
@@ -121,6 +124,7 @@ const MintPage = ({ contract, account, dimensions }) => {
             selection={starsImageUrl}
             setImageSelection={setStarsImageUrl}
             setSummarySelection={setStarsImageSummary}
+            isLoading={isStarsLoading}
             imgs={starsImages}
             submitted={starsLinkSubmitted}
           />
@@ -148,6 +152,7 @@ const MintPage = ({ contract, account, dimensions }) => {
             setArrayImages={setStripesImages}
             setImageTitle={setStripesImageTitle}
             setSubmitted={setStripesLinkSubmitted}
+            setIsLoading={setIsStripesLoading}
           />
           <br />
           <h5>Stripes Background Image Title: {stripesImageTitle}</h5>
@@ -155,6 +160,7 @@ const MintPage = ({ contract, account, dimensions }) => {
             selection={stripesImageUrl}
             setImageSelection={setStripesImageUrl}
             setSummarySelection={setStripesImageSummary}
+            isLoading={isStripesLoading}
             imgs={stripesImages}
             submitted={stripesLinkSubmitted}
           />
@@ -209,6 +215,7 @@ const MintPage = ({ contract, account, dimensions }) => {
             onChange={(event) => setNumTokens(event.target.value)}
           />
           <button
+            className="button button1"
             onClick={() => {
               !!account
                 ? handleMint(numTokens)

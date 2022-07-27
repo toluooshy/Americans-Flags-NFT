@@ -17,7 +17,8 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
   const [description, setDescription] = useState("");
   const [starsLinkSubmitted, setStarsLinkSubmitted] = useState(false);
   const [stripesLinkSubmitted, setStripesLinkSubmitted] = useState(false);
-
+  const [isStarsLoading, setIsStarsLoading] = useState(false);
+  const [isStripesLoading, setIsStripesLoading] = useState(false);
   const [tokenDescription, setTokenDescription] = useState("");
   const [tokenMetadataURI, setTokenMetadataURI] = useState(false);
   const [visibility, setVisibility] = useState(false);
@@ -74,6 +75,7 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
   return (
     <div style={{ lineHeight: "70%" }}>
       <button
+        className="button button1"
         style={{ top: "0px", left: "0px" }}
         onClick={() => {
           setVisibility(!visibility);
@@ -97,6 +99,7 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
             setArrayImages={setStarsImages}
             setImageTitle={setStarsImageTitle}
             setSubmitted={setStarsLinkSubmitted}
+            setIsLoading={setIsStarsLoading}
           />
           <br />
           <h6>Stars Background Image Title: {starsImageTitle}</h6>
@@ -104,6 +107,7 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
             selection={starsImageUrl}
             setImageSelection={setStarsImageUrl}
             setSummarySelection={setStarsImageSummary}
+            isLoading={isStarsLoading}
             imgs={starsImages}
             submitted={starsLinkSubmitted}
             width={dimensions.width * 0.4}
@@ -129,6 +133,7 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
             setArrayImages={setStripesImages}
             setImageTitle={setStripesImageTitle}
             setSubmitted={setStripesLinkSubmitted}
+            setIsLoading={setIsStripesLoading}
           />
           <br />
           <h6>Stripes Background Image Title: {stripesImageTitle}</h6>
@@ -136,6 +141,7 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
             selection={stripesImageUrl}
             setImageSelection={setStripesImageUrl}
             setSummarySelection={setStripesImageSummary}
+            isLoading={isStripesLoading}
             imgs={stripesImages}
             submitted={stripesLinkSubmitted}
             width={dimensions.width * 0.4}
@@ -194,6 +200,7 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
           <br />
           <br />
           <button
+            className="button button1"
             onClick={() => {
               handleUpdate();
             }}

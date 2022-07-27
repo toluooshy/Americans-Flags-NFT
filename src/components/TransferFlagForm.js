@@ -21,6 +21,7 @@ const TransferFlagForm = ({ contract, account, tokenId }) => {
   return (
     <div style={{ lineHeight: "70%" }}>
       <button
+        className="button button1"
         style={{ top: "0px", left: "0px" }}
         onClick={() => {
           setVisibility(!visibility);
@@ -50,6 +51,7 @@ const TransferFlagForm = ({ contract, account, tokenId }) => {
           <br />
           <br />
           <button
+            className="button button1"
             onClick={() => {
               handleTransfer();
             }}
