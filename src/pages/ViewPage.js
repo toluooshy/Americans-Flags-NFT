@@ -143,6 +143,17 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
         VIEW ALL FLAGS 🌎
       </button>
 
+      <button
+        className="button button1"
+        style={{
+          color: !isGlobal ? "#000000" : "#ffffff",
+          backgroundColor: isGlobal ? "#000000" : "#ffffff",
+        }}
+        onClick="window.location.href='https://www.opensea.com';"
+      >
+        OPENSEA ⛵️
+      </button>
+
       <div>
         {!!tokens && tokens.length === 0 && (
           <p style={{ fontSize: "12px" }}>
