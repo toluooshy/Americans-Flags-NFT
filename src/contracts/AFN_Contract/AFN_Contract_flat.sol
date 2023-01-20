@@ -1477,9 +1477,9 @@ abstract contract Ownable is Context {
 // Created by Tolulope Oshinowo
 // AmericansFlagsNFT
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.17;
 
-contract AmericansFlagsNFTtestv5 is ERC721Enumerable, Ownable {
+contract AmericansFlagsNFTtest is ERC721Enumerable, Ownable {
     using Strings for uint256;
 
     uint256 public cost;

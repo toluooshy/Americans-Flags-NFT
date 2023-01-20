@@ -16,7 +16,6 @@ const ImageArray = ({
       style={{
         display: "flex",
         overflowX: "auto",
-        whiteSpace: "nowrap",
         width: width || "100%",
         margin: "auto",
       }}
@@ -40,30 +39,39 @@ const ImageArray = ({
                 setSummarySelection(img[1]);
               }}
             >
-              <img
-                src={img[0]}
-                height={`${width * 0.15 || 200}px`}
-                style={{ padding: "10px" }}
-                onError={({ currentTarget }) => {
-                  currentTarget.onerror = null;
-                  currentTarget.style.display = "none";
+              {" "}
+              <div
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  flexWrap: "wrap",
+                  overflowWrap: "break-word",
+                  height: "350px",
+                  margin: "fit-content",
+                  textOverflow: "ellipsis",
                 }}
-              />
-              <div>
-                <p
+              >
+                <img
+                  src={img[0]}
+                  height={`${width * 0.15 || 200}px`}
+                  style={{ padding: "10px" }}
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null;
+                    currentTarget.style.display = "none";
+                  }}
+                />
+
+                <h5
                   style={{
+                    width: "100%",
                     color: "#ffffff",
-                    width: "auto",
-                    fontSize: "50%",
-                    inlineSize: "min-content",
-                    wordWrap: "break-word",
-                    overflowWrap: "break-word",
-                    hyphens: "manual",
-                    padding: "0px 12px",
+                    fontSize: "75%",
+                    margin: "auto",
+                    padding: "0px 10px",
                   }}
                 >
-                  {img[1] || `\b`}
-                </p>
+                  {img[1] || `(No Title)`}
+                </h5>
                 <br />
               </div>
             </div>

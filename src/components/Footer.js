@@ -7,13 +7,15 @@ const Footer = () => {
         style={{
           color: "#ffffff",
           backgroundColor: "#040404",
-          padding: "0px 5px",
           fontSize: "10px",
           lineHeight: "150%",
+          position: "fixed",
+          bottom: "0",
+          width: "100%",
         }}
       >
-        <div style={{ textAlign: "right" }}>
-          Copyright © 2022. Americans Flags NFT 🇺🇸
+        <div style={{ textAlign: "right", padding: "2px 10px" }}>
+          Copyright © 2023. Americans Flags NFT 🇺🇸
         </div>
       </div>
     </>

@@ -6,7 +6,13 @@ import axios from "axios";
 import { DESKTOP_MIN } from "../utils/Constants";
 import LoadingObject from "./LoadingObject";
 
-const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
+const UpdateFlagForm = ({
+  contract,
+  wallet,
+  tokenId,
+  dimensions,
+  getTokens,
+}) => {
   const [starsImageUrl, setStarsImageUrl] = useState("");
   const [stripesImageUrl, setStripesImageUrl] = useState("");
   const [starsImageTitle, setStarsImageTitle] = useState("");
@@ -24,14 +30,7 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
   const [tokenMetadataURI, setTokenMetadataURI] = useState(false);
   const [visibility, setVisibility] = useState(false);
 
-  const isValid =
-    starsImageUrl &&
-    stripesImageUrl &&
-    starsImageTitle &&
-    stripesImageTitle &&
-    starsImageSummary &&
-    stripesImageSummary &&
-    description;
+  const isValid = starsImageUrl && stripesImageUrl && description;
 
   const handleUpdate = async () => {
     setIsUpdateLoading(true);
@@ -44,14 +43,17 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
 
       const payload = {
         id: tokenId,
-        stars:
-          starsImageUrl.length > 0
-            ? starsImageUrl
-            : "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/1200px-HD_transparent_picture.png",
-        stripes:
-          stripesImageUrl.length > 0
-            ? stripesImageUrl
-            : "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/1200px-HD_transparent_picture.png",
+        starsUrl:
+          starsImageUrl ||
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/1200px-HD_transparent_picture.png",
+        stripesUrl:
+          stripesImageUrl ||
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/1200px-HD_transparent_picture.png",
+        starsTitle: starsImageTitle || "-",
+        stripesTitle: stripesImageTitle || "-",
+        starsSummary: starsImageSummary || "-",
+        stripesSummary: stripesImageSummary || "-",
+        description: description,
         changesLeft: changesLeft,
       };
       await axios
@@ -75,14 +77,16 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
             description,
             tokenMetadataURI
           )
-          .send({ from: account }, async (err, res) => {
+          .send({ from: wallet }, async (err, res) => {
             if (err) {
-              console.log("An error occured", err);
               setIsUpdateLoading(false);
               return;
             }
             alert(`Transaction Received!\nTransaction Hash: ${res}`);
             setIsUpdateLoading(false);
+          })
+          .then(() => {
+            getTokens(false);
           });
       } else {
         alert("Error processing flag metadata. Please try again.");
@@ -108,13 +112,13 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
           style={{
             color: "#eeeeee",
             textAlign: "center",
-            padding: "1px",
+            padding: "1px 20px",
             backgroundColor: "#222",
           }}
         >
           <p>Update Flag #{tokenId}:</p>
           <p className="text">
-            Grab Stars Background Images: {starsImageTitle}
+            Grab Stars Background Source Images Url: {starsImageTitle}
           </p>
           <FormUI
             setArrayImages={setStarsImages}
@@ -142,17 +146,17 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
           >
             <div style={{ flex: "1" }}>
               <p className="text">Selected Stars Background Image Url:</p>
-              <p style={{ fontSize: "8px", color: "#0c0" }}>{starsImageUrl}</p>
+              <p style={{ fontSize: "10px", color: "#0c0" }}>{starsImageUrl}</p>
             </div>
             <div style={{ flex: "1" }}>
               <p className="text">Selected Stars Background Image Summary:</p>
-              <p style={{ fontSize: "8px", color: "#0c0" }}>
+              <p style={{ fontSize: "10px", color: "#0c0" }}>
                 {starsImageSummary}
               </p>
             </div>
           </div>
           <p className="text">
-            Grab Stripes Background Images: {starsImageTitle}
+            Grab Stripes Background Source Images Url: {starsImageTitle}
           </p>
           <FormUI
             setArrayImages={setStripesImages}
@@ -180,13 +184,13 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
           >
             <div style={{ flex: "1" }}>
               <p className="text">Selected Stripes Background Image Url:</p>
-              <p style={{ fontSize: "8px", color: "#0c0" }}>
+              <p style={{ fontSize: "10px", color: "#0c0" }}>
                 {stripesImageUrl}
               </p>
             </div>
             <div style={{ flex: "1" }}>
               <p className="text">Selected Stripes Background Image Summary:</p>
-              <p style={{ fontSize: "8px", color: "#0c0" }}>
+              <p style={{ fontSize: "10px", color: "#0c0" }}>
                 {stripesImageSummary}
               </p>
             </div>
@@ -222,7 +226,11 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
           />
           <br />
           <br />
+          <div style={{ textAlign: "center" }}>
+            {isUpdateLoading && <LoadingObject size=".5" />}
+          </div>
           <button
+            style={{ width: "200px", fontSize: "15px" }}
             className={isValid ? "button button1" : "button disabled"}
             onClick={() => {
               handleUpdate();
@@ -230,9 +238,6 @@ const UpdateFlagForm = ({ contract, account, tokenId, dimensions }) => {
           >
             UPDATE FLAG 🪡
           </button>
-          <div style={{ textAlign: "center" }}>
-            {isUpdateLoading && <LoadingObject size="15%" />}
-          </div>
         </div>
       )}
     </div>

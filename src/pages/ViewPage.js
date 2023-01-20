@@ -7,11 +7,9 @@ import TransferFlagForm from "../components/TransferFlagForm";
 import LoadingObject from "../components/LoadingObject";
 import { DESKTOP_MIN } from "../utils/Constants";
 
-const ViewPage = ({ contract, account, dimensions }) => {
-  const [userTokens, setUserTokens] = useState([]);
-  const [globalTokens, setGlobalTokens] = useState([]);
-  const [tokensList, setTokensList] = useState(userTokens);
-  const [isLoading, setIsLoading] = useState(false);
+const ViewPage = ({ contract, wallet, dimensions }) => {
+  const [tokens, setTokens] = useState(null);
+  const [isGlobal, setIsGlobal] = useState(false);
 
   const containerstyle = {
     width: "95%",
@@ -19,88 +17,95 @@ const ViewPage = ({ contract, account, dimensions }) => {
   };
 
   useEffect(() => {
-    !!account && getUserTokens();
+    !!wallet && getTokens(false);
   }, []);
 
-  const getUserTokens = async () => {
-    setIsLoading(true);
-    setUserTokens([]);
-    await contract.methods.walletOfOwner(account).call(async (err, res) => {
-      if (err) {
-        console.log("An error occured", err);
-        return;
-      }
-      const userTokenIndexes = res.map((i) => Number(i));
-      for (let i = 0; i < userTokenIndexes.length; i++) {
-        await contract.methods
-          .flags(userTokenIndexes[i])
-          .call(async (err, res) => {
-            if (err) {
-              console.log("An error occured", err);
-              return;
-            }
-            await axios
-              .get(res.URI)
-              .then(async (response) => {
-                await contract.methods
-                  .ownerOf(userTokenIndexes[i])
-                  .call(async (err, res) => {
-                    if (err) {
-                      console.log("An error occured", err);
-                      return;
-                    }
-                    setUserTokens((prevUserTokens) => [
-                      ...prevUserTokens,
-                      [res, response.data],
-                    ]);
-                  });
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          });
-      }
-    });
-    setTokensList(userTokens);
-    setIsLoading(false);
-  };
-
-  const getGlobalTokens = async () => {
-    setIsLoading(true);
-    setGlobalTokens([]);
-    await contract.methods.totalSupply().call(async (err, res) => {
-      if (err) {
-        console.log("An error occured", err);
-        return;
-      }
-      for (let i = 1; i <= res; i++) {
-        await contract.methods.flags(i).call(async (err, res) => {
+  const getTokens = async (isGlobal) => {
+    setTokens(null);
+    if (isGlobal) {
+      await contract.methods.totalSupply().call(async (err, res) => {
+        if (err) {
+          console.log("An error occured", err);
+          return;
+        }
+        await contract.methods.totalSupply().call(async (err, res) => {
           if (err) {
             console.log("An error occured", err);
             return;
           }
-          await axios
-            .get(res.URI)
-            .then(async (response) => {
-              await contract.methods.ownerOf(i).call(async (err, res) => {
-                if (err) {
-                  console.log("An error occured", err);
-                  return;
-                }
-                setGlobalTokens((prevGlobalTokens) => [
-                  ...prevGlobalTokens,
-                  [res, response.data],
-                ]);
-              });
-            })
-            .catch((error) => {
-              console.log(error);
+
+          setTokens([]);
+          for (let i = 1; i <= res; i++) {
+            await contract.methods.flags(i).call(async (err, res) => {
+              if (err) {
+                console.log("An error occured", err);
+                return;
+              }
+              await axios
+                .get(
+                  `https://americans-flags-nft.${res.URI.split("https://")[1]}`
+                )
+                .then(async (response) => {
+                  await contract.methods.ownerOf(i).call(async (err, res) => {
+                    if (err) {
+                      console.log("An error occured", err);
+                      return;
+                    }
+                    setTokens((prevTokens) => [
+                      ...prevTokens,
+                      [res, response.data],
+                    ]);
+                  });
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
             });
+          }
         });
-      }
-    });
-    setTokensList(globalTokens);
-    setIsLoading(false);
+      });
+    } else {
+      await contract.methods.walletOfOwner(wallet).call(async (err, res) => {
+        if (err) {
+          console.log("An error occured", err);
+          return;
+        }
+
+        setTokens([]);
+        const userTokenIndexes = res.map((i) => Number(i));
+        for (let i = 0; i < userTokenIndexes.length; i++) {
+          await contract.methods
+            .flags(userTokenIndexes[i])
+            .call(async (err, res) => {
+              if (err) {
+                console.log("An error occured", err);
+                return;
+              }
+              await axios
+                .get(
+                  `https://americans-flags-nft.${res.URI.split("https://")[1]}`
+                )
+                .then(async (response) => {
+                  await contract.methods
+                    .ownerOf(userTokenIndexes[i])
+                    .call(async (err, res) => {
+                      if (err) {
+                        console.log("An error occured", err);
+                        return;
+                      }
+                      setTokens((prevTokens) => [
+                        ...prevTokens,
+                        [res, response.data],
+                      ]);
+                    });
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            });
+        }
+      });
+    }
   };
 
   return (
@@ -108,9 +113,14 @@ const ViewPage = ({ contract, account, dimensions }) => {
       <h1>VIEW</h1>
       <button
         className="button button1"
+        style={{
+          color: isGlobal ? "#000000" : "#ffffff",
+          backgroundColor: !isGlobal ? "#000000" : "#ffffff",
+        }}
         onClick={() => {
-          !!account
-            ? getUserTokens()
+          setIsGlobal(false);
+          !!wallet
+            ? getTokens(false)
             : alert(
                 "Please ensure your web3 wallet is connected before proceeding."
               );
@@ -121,19 +131,27 @@ const ViewPage = ({ contract, account, dimensions }) => {
 
       <button
         className="button button1"
+        style={{
+          color: !isGlobal ? "#000000" : "#ffffff",
+          backgroundColor: isGlobal ? "#000000" : "#ffffff",
+        }}
         onClick={() => {
-          getGlobalTokens();
+          setIsGlobal(true);
+          getTokens(true);
         }}
       >
         VIEW ALL FLAGS 🌎
       </button>
 
       <div>
-        {isLoading ? (
-          <LoadingObject />
-        ) : (
-          tokensList.map((token, index) => {
-            console.log(token);
+        {!!tokens && tokens.length === 0 && (
+          <p style={{ fontSize: "12px" }}>
+            You can start creating your very own Americans Flags NFT by heading
+            over to the 'Mint' page! 🇺🇸
+          </p>
+        )}
+        {!!tokens && !!wallet ? (
+          tokens.map((token, index) => {
             return (
               <div
                 key={index}
@@ -153,14 +171,63 @@ const ViewPage = ({ contract, account, dimensions }) => {
                     }}
                   />
                 )}
-                <div style={{ flex: "1", textAlign: "left" }}>
-                  <h4>
+                <div style={{ flex: "1", textAlign: "center" }}>
+                  <h4
+                    style={{
+                      height: "10px",
+                    }}
+                  >
                     {token[1].name || "Untitled"} [{token[1].edition} Edition]
                   </h4>
-                  <h5>{token[1].description || "-"}</h5>
-                  <h6>
-                    {`Owner ${token[0]} ${token[0] === account ? "(you)" : ""}`}
-                  </h6>
+                  <h5
+                    style={{
+                      height: "0px",
+                      fontStyle: "italic",
+                      fontWeight: "bold",
+                      fontSize: "24px",
+                    }}
+                  >
+                    "{token[1].description || "-"}"
+                  </h5>
+                  {Number(token[1].attributes[7].value) === 3 ? (
+                    <p style={{ color: "#060", fontSize: "12px" }}>
+                      (3 Changes Left)
+                    </p>
+                  ) : Number(token[1].attributes[7].value) === 2 ? (
+                    <p style={{ color: "#a60", fontSize: "12px" }}>
+                      (2 Changes Left)
+                    </p>
+                  ) : Number(token[1].attributes[7].value) === 1 ? (
+                    <p style={{ color: "#600", fontSize: "12px" }}>
+                      (1 Change Left)
+                    </p>
+                  ) : (
+                    <p
+                      style={{
+                        color: "#000",
+                        fontSize: "12px",
+                        fontStyle: "italic",
+                      }}
+                    >
+                      (Locked)
+                    </p>
+                  )}
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      width: "100%",
+                      flexWrap: "wrap",
+                      fontSize: "10px",
+                    }}
+                  >
+                    <div style={{ padding: "0px 5px" }}>Owner:</div>
+                    <div>{token[0]}</div>
+                    <div style={{ padding: "0px 5px", color: "#060" }}>
+                      {token[0].toLowerCase() === wallet.toLowerCase() &&
+                        "(you)"}
+                    </div>
+                  </div>
                   <p
                     style={{
                       fontSize: "55%",
@@ -222,20 +289,21 @@ const ViewPage = ({ contract, account, dimensions }) => {
                       </p>
                     </div>
                   </div>
-
-                  {token[0] === account && (
+                  {token[0].toLowerCase() === wallet.toLowerCase() && (
                     <div>
                       <UpdateFlagForm
                         contract={contract}
-                        account={account}
+                        wallet={wallet}
                         tokenId={token[1].id}
                         dimensions={dimensions}
+                        getTokens={getTokens}
                       />
                       <TransferFlagForm
                         contract={contract}
-                        account={account}
+                        wallet={wallet}
                         dimensions={dimensions}
                         tokenId={token[1].id}
+                        getTokens={getTokens}
                       />{" "}
                     </div>
                   )}
@@ -253,6 +321,14 @@ const ViewPage = ({ contract, account, dimensions }) => {
               </div>
             );
           })
+        ) : (
+          <div>
+            <p style={{ fontSize: "12px" }}>
+              Please make sure that your wallet is connected.
+            </p>
+            <br />
+            <LoadingObject />
+          </div>
         )}
         <br />
       </div>

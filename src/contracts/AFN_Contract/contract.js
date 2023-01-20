@@ -1,4 +1,5 @@
-export const ContractABI = [
+export const address = "0xE7E6A09D3e3d785587FADb2D2D7d759e73464205";
+export const abi = [
   {
     inputs: [
       { internalType: "string", name: "name", type: "string" },

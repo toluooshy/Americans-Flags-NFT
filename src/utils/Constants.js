@@ -1,4 +1,4 @@
-export const DESKTOP_MIN = 600;
+export const DESKTOP_MIN = 850;
 
 var body = document.body,
   html = document.documentElement;

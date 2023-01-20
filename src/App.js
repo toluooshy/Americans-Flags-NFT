@@ -6,20 +6,39 @@ import ViewPage from "./pages/ViewPage";
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Web3Modal from "web3modal";
+import { ethers } from "ethers";
 import Web3 from "web3";
-import { ContractABI } from "./contracts/AFN_Contract/AFN_Contract_abi";
+import { address, abi } from "./contracts/AFN_Contract/contract";
 import { useWindowDimensions } from "./utils/CustomHooks";
 import axios from "axios";
 import LoadingObject from "./components/LoadingObject";
 
 const web3 = new Web3(Web3.givenProvider);
-const contractAddress = "0xDC0D2728D9f836Cb89F95E9CE7F5f01a021F8b1E";
-const contract = new web3.eth.Contract(ContractABI, contractAddress);
+const contract = new web3.eth.Contract(abi, address);
 
 function App() {
-  const [account, setAccount] = useState();
+  const [wallet, setWallet] = useState();
   const [apisReady, setApisReady] = useState(false);
   const dimensions = useWindowDimensions();
+
+  const providerOptions = {};
+
+  const connectWallet = async () => {
+    try {
+      let web3Modal = new Web3Modal({
+        cacheProvider: false,
+        providerOptions,
+      });
+      const web3ModalInstance = await web3Modal.connect();
+      const web3ModalProvider = new ethers.providers.Web3Provider(
+        web3ModalInstance
+      );
+      setWallet(web3ModalProvider.provider.selectedAddress);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(async () => {
     await axios
@@ -43,9 +62,10 @@ function App() {
       <Header
         web3={web3}
         contract={contract}
-        account={account}
+        wallet={wallet}
         dimensions={dimensions}
-        setAccount={setAccount}
+        setWallet={setWallet}
+        connectWallet={connectWallet}
       />
       {!!apisReady ? (
         <Routes>
@@ -54,7 +74,7 @@ function App() {
             element={
               <HomePage
                 contract={contract}
-                account={account}
+                wallet={wallet}
                 dimensions={dimensions}
               />
             }
@@ -64,7 +84,7 @@ function App() {
             element={
               <MintPage
                 contract={contract}
-                account={account}
+                wallet={wallet}
                 dimensions={dimensions}
               />
             }
@@ -74,16 +94,19 @@ function App() {
             element={
               <ViewPage
                 contract={contract}
-                account={account}
+                wallet={wallet}
                 dimensions={dimensions}
               />
             }
           />
         </Routes>
       ) : (
-        <LoadingObject />
+        <div>
+          <br />
+          <LoadingObject />
+        </div>
       )}
-      <Footer contract={contract} account={account} dimensions={dimensions} />
+      <Footer contract={contract} wallet={wallet} dimensions={dimensions} />
     </div>
   );
 }

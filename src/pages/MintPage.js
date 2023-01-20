@@ -8,7 +8,7 @@ import axios from "axios";
 import { DESKTOP_MIN } from "../utils/Constants";
 import LoadingObject from "../components/LoadingObject";
 
-const MintPage = ({ contract, account, dimensions }) => {
+const MintPage = ({ contract, wallet, dimensions }) => {
   const [starsImageUrl, setStarsImageUrl] = useState("");
   const [stripesImageUrl, setStripesImageUrl] = useState("");
   const [starsImageTitle, setStarsImageTitle] = useState("");
@@ -26,14 +26,7 @@ const MintPage = ({ contract, account, dimensions }) => {
   const [tokenMetadataURIs, setTokenMetadataURIs] = useState([]);
   const [numTokens, setNumTokens] = useState(1);
 
-  const isValid =
-    starsImageUrl &&
-    stripesImageUrl &&
-    starsImageTitle &&
-    stripesImageTitle &&
-    starsImageSummary &&
-    stripesImageSummary &&
-    description;
+  const isValid = starsImageUrl && stripesImageUrl && description;
 
   const containerstyle = {
     width: "95%",
@@ -58,10 +51,10 @@ const MintPage = ({ contract, account, dimensions }) => {
           stripesUrl:
             stripesImageUrl ||
             "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/1200px-HD_transparent_picture.png",
-          starsTitle: starsImageTitle,
-          stripesTitle: stripesImageTitle,
-          starsSummary: starsImageSummary,
-          stripesSummary: stripesImageSummary,
+          starsTitle: starsImageTitle || "-",
+          stripesTitle: stripesImageTitle || "-",
+          starsSummary: starsImageSummary || "-",
+          stripesSummary: stripesImageSummary || "-",
           description: description,
           changesLeft: 3,
         };
@@ -86,7 +79,7 @@ const MintPage = ({ contract, account, dimensions }) => {
           const cost = Number(res);
           await contract.methods
             .mint(
-              account,
+              wallet,
               numTokens,
               starsImageUrl,
               stripesImageUrl,
@@ -98,7 +91,7 @@ const MintPage = ({ contract, account, dimensions }) => {
               tokenMetadataURIs
             )
             .send(
-              { value: numTokens * cost, from: account },
+              { value: numTokens * cost, from: wallet },
               async (err, res) => {
                 if (err) {
                   console.log("An error occured", err);
@@ -146,15 +139,38 @@ const MintPage = ({ contract, account, dimensions }) => {
           <div
             style={{
               display: dimensions.width > DESKTOP_MIN ? "flex" : "block",
+              margin: "auto",
             }}
           >
-            <div style={{ flex: "1" }}>
-              <h5>Selected Stars Background Image Url:</h5>
-              <h6 style={{ color: "#0c0" }}>{starsImageUrl}</h6>
+            <div
+              style={{
+                display: "flex",
+                width: "50%",
+                flexWrap: "wrap",
+                overflowWrap: "break-word",
+                margin: "auto",
+              }}
+            >
+              <h5 style={{ width: "100%" }}>
+                Selected Stars Background Image Url:
+              </h5>
+              <h6 style={{ color: "#0c0", width: "100%" }}>{starsImageUrl}</h6>
             </div>
-            <div style={{ flex: "1" }}>
-              <h5>Selected Stars Background Image Summary:</h5>
-              <h6 style={{ color: "#0c0" }}>{starsImageSummary}</h6>
+            <div
+              style={{
+                display: "flex",
+                width: "50%",
+                flexWrap: "wrap",
+                overflowWrap: "break-word",
+                margin: "auto",
+              }}
+            >
+              <h5 style={{ width: "100%" }}>
+                Selected Stars Background Image Summary:
+              </h5>
+              <h6 style={{ color: "#0c0", width: "100%" }}>
+                {starsImageSummary}
+              </h6>
             </div>
           </div>
           <br />
@@ -182,15 +198,40 @@ const MintPage = ({ contract, account, dimensions }) => {
           <div
             style={{
               display: dimensions.width > DESKTOP_MIN ? "flex" : "block",
+              margin: "auto",
             }}
           >
-            <div style={{ flex: "1" }}>
-              <h5>Selected Stripes Background Image Url:</h5>
-              <h6 style={{ color: "#0c0" }}>{stripesImageUrl}</h6>
+            <div
+              style={{
+                display: "flex",
+                width: "50%",
+                flexWrap: "wrap",
+                overflowWrap: "break-word",
+                margin: "auto",
+              }}
+            >
+              <h5 style={{ width: "100%" }}>
+                Selected Stripes Background Image Url:
+              </h5>
+              <h6 style={{ color: "#0c0", width: "100%" }}>
+                {stripesImageUrl}
+              </h6>
             </div>
-            <div style={{ flex: "1" }}>
-              <h5>Selected Stripes Background Image Summary:</h5>
-              <h6 style={{ color: "#0c0" }}>{stripesImageSummary}</h6>
+            <div
+              style={{
+                display: "flex",
+                width: "50%",
+                flexWrap: "wrap",
+                overflowWrap: "break-word",
+                margin: "auto",
+              }}
+            >
+              <h5 style={{ width: "100%" }}>
+                Selected Stripes Background Image Summary:
+              </h5>
+              <h6 style={{ color: "#0c0", width: "100%" }}>
+                {stripesImageSummary}
+              </h6>
             </div>
           </div>
           <br />
@@ -219,35 +260,22 @@ const MintPage = ({ contract, account, dimensions }) => {
           />
           <br />
           <br />
-          <br />
-          <h3>Step 4:</h3>
-          <h4>Pick your desired number of copies for this flag and mint!</h4>
-          <input
-            type="number"
-            value={numTokens}
-            min="1"
-            max="3"
-            onChange={(event) => setNumTokens(event.target.value)}
-          />
+          <div style={{ textAlign: "center" }}>
+            {isMintLoading && <LoadingObject size=".5" />}
+          </div>
           <button
+            style={{ width: "300px", fontSize: "20px" }}
             className={isValid ? "button button1" : "button disabled"}
             onClick={() => {
-              !!account
+              !!wallet
                 ? handleMint(numTokens)
                 : alert(
                     "Please ensure your web3 wallet is connected before proceeding."
                   );
             }}
           >
-            {numTokens < 2
-              ? "MINT FLAG  🇺🇸"
-              : numTokens > 1 && numTokens < 3
-              ? "MINT FLAGS  🇺🇸🇺🇸"
-              : "MINT FLAGS  🇺🇸🇺🇸🇺🇸"}
+            MINT FLAG 🇺🇸
           </button>
-          <div style={{ textAlign: "center" }}>
-            {isMintLoading && <LoadingObject size="15%" />}
-          </div>
           <br />
           <br />
         </div>

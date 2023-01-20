@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
-const TransferFlagForm = ({ contract, account, tokenId }) => {
+const TransferFlagForm = ({ contract, wallet, tokenId, getTokens }) => {
   const [recipientAddress, setRecipientAddress] = useState("");
   const [visibility, setVisibility] = useState(false);
 
   const handleTransfer = async () => {
     await contract.methods
-      .safeTransferFrom(account, recipientAddress, tokenId)
-      .send({ from: account }, async (err, res) => {
+      .safeTransferFrom(wallet, recipientAddress, tokenId)
+      .send({ from: wallet }, async (err, res) => {
         if (err) {
           console.log("An error occured", err);
           return;
@@ -15,6 +15,9 @@ const TransferFlagForm = ({ contract, account, tokenId }) => {
         if (!!res) {
           alert(`Transaction Received!\nTransaction Hash: ${res}`);
         }
+      })
+      .then(() => {
+        getTokens(false);
       });
   };
 
@@ -35,6 +38,7 @@ const TransferFlagForm = ({ contract, account, tokenId }) => {
           style={{
             color: "#eeeeee",
             textAlign: "center",
+            padding: "1px 20px",
             backgroundColor: "#222",
           }}
         >
@@ -48,6 +52,7 @@ const TransferFlagForm = ({ contract, account, tokenId }) => {
             Recipient Address:
           </label>
           <br />
+          <br />
           <input
             className="textInput"
             type="text"
@@ -57,12 +62,13 @@ const TransferFlagForm = ({ contract, account, tokenId }) => {
           <br />
           <br />
           <button
+            style={{ width: "200px", fontSize: "15px" }}
             className="button button1"
             onClick={() => {
               handleTransfer();
             }}
           >
-            TRANSFER FLAG
+            TRANSFER FLAG 🛫
           </button>
         </div>
       )}

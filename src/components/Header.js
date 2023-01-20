@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { DESKTOP_MIN } from "../utils/Constants";
 
-const Header = ({ web3, contract, account, dimensions, setAccount }) => {
+const Header = ({ web3, contract, wallet, dimensions, connectWallet }) => {
   const style = {
     color: "#ffffff",
     backgroundColor: "#040404",
@@ -12,14 +12,6 @@ const Header = ({ web3, contract, account, dimensions, setAccount }) => {
     textDecoration: "none",
     fontSize: "20px",
     boxShadow: "0px 5px #000000",
-  };
-
-  const handleConnect = () => {
-    async function connectWallet() {
-      const accounts = await web3.eth.requestAccounts();
-      await setAccount(accounts[0]);
-    }
-    connectWallet();
   };
 
   return (
@@ -38,18 +30,18 @@ const Header = ({ web3, contract, account, dimensions, setAccount }) => {
         <div
           style={{ margin: "auto 0px", fontSize: "12px" }}
           onMouseEnter={({ currentTarget }) => {
-            if (!account) {
+            if (!wallet) {
               currentTarget.style.color = "#ffffff";
             }
           }}
           onMouseOut={({ currentTarget }) => {
-            if (!account) {
+            if (!wallet) {
               currentTarget.style.color = "#aaaaaa";
             }
           }}
           onClick={({ currentTarget }) => {
-            if (!account) {
-              handleConnect();
+            if (!wallet) {
+              connectWallet();
               currentTarget.style.color = "#0c0";
             } else {
               alert(
@@ -58,7 +50,7 @@ const Header = ({ web3, contract, account, dimensions, setAccount }) => {
             }
           }}
         >
-          {account || "Connect Web3 Wallet"}
+          {wallet || "Connect Web3 Wallet"}
         </div>
       </div>
       <div className="header" style={style}>
