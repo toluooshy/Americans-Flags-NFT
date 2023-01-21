@@ -1,6 +1,6 @@
 "use es6";
 
-import React, { useState } from "react";
+import React from "react";
 
 const HomePage = ({ contract, wallet, dimensions }) => {
   const containerstyle = {
@@ -20,10 +20,12 @@ const HomePage = ({ contract, wallet, dimensions }) => {
           January 2023 web scraping algorithms and smart contracts were utilized
           to adapt the originally physical interactive experince into a digital
           one in where users too can create their own personal flags. This
-          decentralized application (dapp) that enables users to mint
-          non-fungible tokens (NFT's) in the shape of the United States flag to
-          express what "America" means to them. More information regarding the
-          original art project can be found at the link listed below.
+          decentralized application (dapp) enables users to mint non-fungible
+          tokens (NFT's) in the shape of the United States flag to express what
+          "America" means to them. All NFT's are free + gas to mint and are
+          compatible with any Ethereum-supported platforms. More information
+          regarding the original art project can be found at the link listed
+          below.
         </p>
         <a href="https://www.americansflags.net/">
           https://www.americansflags.net/

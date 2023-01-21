@@ -11,8 +11,6 @@ contract AmericansFlagsNFTtest is ERC721Enumerable, Ownable {
     using Strings for uint256;
 
     uint256 public cost;
-    uint256 public maxSupply;
-    uint256 public maxMintAmount;
     bool public paused;
     mapping(address => bool) public whitelisted;
 
@@ -25,6 +23,7 @@ contract AmericansFlagsNFTtest is ERC721Enumerable, Ownable {
         string stripesSummary;
         string description;
         string URI;
+        uint256 lastChanged;
         uint256 changesLeft;
         bool isLocked;
     }
@@ -38,7 +37,6 @@ contract AmericansFlagsNFTtest is ERC721Enumerable, Ownable {
     // public
     function mint(
         address _to,
-        uint256 _mintAmount,
         string memory _starsUrl,
         string memory _stripesUrl,
         string memory _starsTitle,
@@ -46,32 +44,29 @@ contract AmericansFlagsNFTtest is ERC721Enumerable, Ownable {
         string memory _starsSummary,
         string memory _stripesSummary,
         string memory _description,
-        string[] memory _URIs
+        string memory _URI,
+        uint256 _lastChanged
     ) public payable {
         uint256 supply = totalSupply();
         require(!paused);
-        require(_mintAmount > 0);
-        require(_mintAmount <= maxMintAmount);
-        require(supply + _mintAmount <= maxSupply);
         if (msg.sender != owner()) {
             if (whitelisted[msg.sender] != true) {
-                require(msg.value >= cost * _mintAmount);
+                require(msg.value >= cost);
             }
         }
-        for (uint256 i = 0; i < _mintAmount; i++) {
-            uint256 index = supply + i + 1;
-            flags[index].starsUrl = _starsUrl;
-            flags[index].stripesUrl = _stripesUrl;
-            flags[index].starsTitle = _starsTitle;
-            flags[index].stripesTitle = _stripesTitle;
-            flags[index].starsSummary = _starsSummary;
-            flags[index].stripesSummary = _stripesSummary;
-            flags[index].description = _description;
-            flags[index].URI = _URIs[i];
-            flags[index].changesLeft = 3;
-            flags[index].isLocked = false;
-            _safeMint(_to, index);
-        }
+        uint256 index = supply + 1;
+        flags[index].starsUrl = _starsUrl;
+        flags[index].stripesUrl = _stripesUrl;
+        flags[index].starsTitle = _starsTitle;
+        flags[index].stripesTitle = _stripesTitle;
+        flags[index].starsSummary = _starsSummary;
+        flags[index].stripesSummary = _stripesSummary;
+        flags[index].description = _description;
+        flags[index].URI = _URI;
+        flags[index].lastChanged = _lastChanged;
+        flags[index].changesLeft = 3;
+        flags[index].isLocked = false;
+        _safeMint(_to, index);
     }
 
     function walletOfOwner(address _owner)
@@ -111,7 +106,8 @@ contract AmericansFlagsNFTtest is ERC721Enumerable, Ownable {
         string memory _starsSummary,
         string memory _stripesSummary,
         string memory _description,
-        string memory _URI
+        string memory _URI,
+        uint256 _lastChanged
     ) public {
         require(
             msg.sender == ownerOf(_tokenId),
@@ -129,6 +125,7 @@ contract AmericansFlagsNFTtest is ERC721Enumerable, Ownable {
         flags[_tokenId].stripesSummary = _stripesSummary;
         flags[_tokenId].description = _description;
         flags[_tokenId].URI = _URI;
+        flags[_tokenId].lastChanged = _lastChanged;
         flags[_tokenId].changesLeft = flags[_tokenId].changesLeft - 1;
         if (flags[_tokenId].changesLeft == 0) {
             flags[_tokenId].isLocked = true;
@@ -137,14 +134,6 @@ contract AmericansFlagsNFTtest is ERC721Enumerable, Ownable {
 
     function setCost(uint256 _newCost) public onlyOwner {
         cost = (1 ether * _newCost) / 100;
-    }
-
-    function setMaxSupply(uint256 _newMaxSupply) public onlyOwner {
-        maxSupply = _newMaxSupply;
-    }
-
-    function setMaxMintAmount(uint256 _newMaxMintAmount) public onlyOwner {
-        maxMintAmount = _newMaxMintAmount;
     }
 
     function pause(bool _state) public onlyOwner {

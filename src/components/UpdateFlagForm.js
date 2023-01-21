@@ -27,7 +27,7 @@ const UpdateFlagForm = ({
   const [isStarsLoading, setIsStarsLoading] = useState(false);
   const [isStripesLoading, setIsStripesLoading] = useState(false);
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
-  const [tokenMetadataURI, setTokenMetadataURI] = useState(false);
+  const [URI, setURI] = useState(false);
   const [visibility, setVisibility] = useState(false);
 
   const isValid = starsImageUrl && stripesImageUrl && description;
@@ -39,6 +39,7 @@ const UpdateFlagForm = ({
         console.log("An error occured", err);
         return;
       }
+      const lastChanged = Date.now();
       const changesLeft = Number(res.changesLeft);
 
       const payload = {
@@ -54,17 +55,19 @@ const UpdateFlagForm = ({
         starsSummary: starsImageSummary || "-",
         stripesSummary: stripesImageSummary || "-",
         description: description,
+        lastChanged: lastChanged,
         changesLeft: changesLeft,
       };
       await axios
         .post("https://flag-generator-api.herokuapp.com/generate", payload)
         .then((response) => {
-          setTokenMetadataURI(response.data);
+          setURI(response.data);
         })
         .catch(() => {
           console.log("Something went wrong.");
         });
-      if (!!tokenMetadataURI) {
+      console.log(URI);
+      if (URI.length > 0) {
         await contract.methods
           .setFlagData(
             tokenId,
@@ -75,7 +78,8 @@ const UpdateFlagForm = ({
             starsImageSummary,
             stripesImageSummary,
             description,
-            tokenMetadataURI
+            URI,
+            lastChanged
           )
           .send({ from: wallet }, async (err, res) => {
             if (err) {

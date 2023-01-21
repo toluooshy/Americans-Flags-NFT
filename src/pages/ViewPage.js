@@ -33,7 +33,6 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
             console.log("An error occured", err);
             return;
           }
-
           setTokens([]);
           for (let i = 1; i <= res; i++) {
             await contract.methods.flags(i).call(async (err, res) => {
@@ -70,7 +69,6 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
           console.log("An error occured", err);
           return;
         }
-
         setTokens([]);
         const userTokenIndexes = res.map((i) => Number(i));
         for (let i = 0; i < userTokenIndexes.length; i++) {
@@ -143,17 +141,15 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
         VIEW ALL FLAGS 🌎
       </button>
 
-      <button
-        className="button button1"
-        style={{
-          color: !isGlobal ? "#000000" : "#ffffff",
-          backgroundColor: isGlobal ? "#000000" : "#ffffff",
-        }}
-        onClick="window.location.href='https://www.opensea.com';"
+      <a
+        href="https://testnets.opensea.io/collection/americans-flags-nft-test-v2"
+        target="_blank"
+        rel="noopener noreferrer"
       >
-        OPENSEA ⛵️
-      </button>
-
+        <button className="button button1" onClick="window.location.href=''">
+          OPENSEA ⛵️
+        </button>
+      </a>
       <div>
         {!!tokens && tokens.length === 0 && (
           <p style={{ fontSize: "12px" }}>
@@ -200,15 +196,15 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                   >
                     "{token[1].description || "-"}"
                   </h5>
-                  {Number(token[1].attributes[7].value) === 3 ? (
+                  {Number(token[1].attributes[8].value) === 3 ? (
                     <p style={{ color: "#060", fontSize: "12px" }}>
                       (3 Changes Left)
                     </p>
-                  ) : Number(token[1].attributes[7].value) === 2 ? (
+                  ) : Number(token[1].attributes[8].value) === 2 ? (
                     <p style={{ color: "#a60", fontSize: "12px" }}>
                       (2 Changes Left)
                     </p>
-                  ) : Number(token[1].attributes[7].value) === 1 ? (
+                  ) : Number(token[1].attributes[8].value) === 1 ? (
                     <p style={{ color: "#600", fontSize: "12px" }}>
                       (1 Change Left)
                     </p>
@@ -221,6 +217,18 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                       }}
                     >
                       (Locked)
+                    </p>
+                  )}
+                  {!!token[1].attributes[7].value && (
+                    <p style={{ color: "#006", fontSize: "12px" }}>
+                      Last updated on{" "}
+                      {new Date(
+                        token[1].attributes[7].value
+                      ).toLocaleDateString(undefined, {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })}
                     </p>
                   )}
                   <div

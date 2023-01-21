@@ -1,6 +1,6 @@
 "use es6";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import FormUI from "../components/FormUI";
 import Flag from "../components/Flag";
 import ImageArray from "../components/ImageArray";
@@ -23,8 +23,7 @@ const MintPage = ({ contract, wallet, dimensions }) => {
   const [isStarsLoading, setIsStarsLoading] = useState(false);
   const [isStripesLoading, setIsStripesLoading] = useState(false);
   const [isMintLoading, setIsMintLoading] = useState(false);
-  const [tokenMetadataURIs, setTokenMetadataURIs] = useState([]);
-  const [numTokens, setNumTokens] = useState(1);
+  const [URI, setURI] = useState([]);
 
   const isValid = starsImageUrl && stripesImageUrl && description;
 
@@ -35,42 +34,41 @@ const MintPage = ({ contract, wallet, dimensions }) => {
 
   const handleMint = async () => {
     setIsMintLoading(true);
-    setTokenMetadataURIs([]);
+    setURI(null);
     await contract.methods.totalSupply().call(async (err, res) => {
       if (err) {
         console.log("An error occured", err);
         return;
       }
       const totalSupply = Number(res);
-      for (let i = 1; i <= numTokens; i++) {
-        const payload = {
-          id: totalSupply + i,
-          starsUrl:
-            starsImageUrl ||
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/1200px-HD_transparent_picture.png",
-          stripesUrl:
-            stripesImageUrl ||
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/1200px-HD_transparent_picture.png",
-          starsTitle: starsImageTitle || "-",
-          stripesTitle: stripesImageTitle || "-",
-          starsSummary: starsImageSummary || "-",
-          stripesSummary: stripesImageSummary || "-",
-          description: description,
-          changesLeft: 3,
-        };
-        await axios
-          .post("https://flag-generator-api.herokuapp.com/generate", payload)
-          .then(async (response) => {
-            await setTokenMetadataURIs((prevTokenMetadataURIs) => [
-              ...prevTokenMetadataURIs,
-              response.data,
-            ]);
-          })
-          .catch(() => {
-            console.log("Something went wrong.");
-          });
-      }
-      if (tokenMetadataURIs.length > 0) {
+      const lastChanged = Date.now();
+
+      const payload = {
+        id: totalSupply + 1,
+        starsUrl:
+          starsImageUrl ||
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/1200px-HD_transparent_picture.png",
+        stripesUrl:
+          stripesImageUrl ||
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/1200px-HD_transparent_picture.png",
+        starsTitle: starsImageTitle || "-",
+        stripesTitle: stripesImageTitle || "-",
+        starsSummary: starsImageSummary || "-",
+        stripesSummary: stripesImageSummary || "-",
+        description: description,
+        lastChanged: lastChanged,
+        changesLeft: 3,
+      };
+      await axios
+        .post("https://flag-generator-api.herokuapp.com/generate", payload)
+        .then(async (response) => {
+          await setURI(response.data);
+        })
+        .catch(() => {
+          console.log("Something went wrong.");
+        });
+      console.log(URI);
+      if (URI.length > 0) {
         await contract.methods.cost().call(async (err, res) => {
           if (err) {
             console.log("An error occured", err);
@@ -80,7 +78,6 @@ const MintPage = ({ contract, wallet, dimensions }) => {
           await contract.methods
             .mint(
               wallet,
-              numTokens,
               starsImageUrl,
               stripesImageUrl,
               starsImageTitle,
@@ -88,20 +85,18 @@ const MintPage = ({ contract, wallet, dimensions }) => {
               starsImageSummary,
               stripesImageSummary,
               description,
-              tokenMetadataURIs
+              URI,
+              lastChanged
             )
-            .send(
-              { value: numTokens * cost, from: wallet },
-              async (err, res) => {
-                if (err) {
-                  console.log("An error occured", err);
-                  setIsMintLoading(false);
-                  return;
-                }
-                alert(`Transaction Received!\nTransaction Hash: ${res}`);
+            .send({ value: cost, from: wallet }, async (err, res) => {
+              if (err) {
+                console.log("An error occured", err);
                 setIsMintLoading(false);
+                return;
               }
-            );
+              alert(`Transaction Received!\nTransaction Hash: ${res}`);
+              setIsMintLoading(false);
+            });
         });
       } else {
         alert("Error processing flag metadata. Please try again.");
@@ -268,7 +263,7 @@ const MintPage = ({ contract, wallet, dimensions }) => {
             className={isValid ? "button button1" : "button disabled"}
             onClick={() => {
               !!wallet
-                ? handleMint(numTokens)
+                ? handleMint()
                 : alert(
                     "Please ensure your web3 wallet is connected before proceeding."
                   );

@@ -1,4 +1,4 @@
-export const address = "0xE7E6A09D3e3d785587FADb2D2D7d759e73464205";
+export const address = "0x0803A68f4e4E8e28381540341cF332c072c9B6EB";
 export const abi = [
   {
     inputs: [
@@ -123,6 +123,7 @@ export const abi = [
       { internalType: "string", name: "stripesSummary", type: "string" },
       { internalType: "string", name: "description", type: "string" },
       { internalType: "string", name: "URI", type: "string" },
+      { internalType: "uint256", name: "lastChanged", type: "uint256" },
       { internalType: "uint256", name: "changesLeft", type: "uint256" },
       { internalType: "bool", name: "isLocked", type: "bool" },
     ],
@@ -147,23 +148,8 @@ export const abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "maxMintAmount",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "maxSupply",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       { internalType: "address", name: "_to", type: "address" },
-      { internalType: "uint256", name: "_mintAmount", type: "uint256" },
       { internalType: "string", name: "_starsUrl", type: "string" },
       { internalType: "string", name: "_stripesUrl", type: "string" },
       { internalType: "string", name: "_starsTitle", type: "string" },
@@ -171,7 +157,8 @@ export const abi = [
       { internalType: "string", name: "_starsSummary", type: "string" },
       { internalType: "string", name: "_stripesSummary", type: "string" },
       { internalType: "string", name: "_description", type: "string" },
-      { internalType: "string[]", name: "_URIs", type: "string[]" },
+      { internalType: "string", name: "_URI", type: "string" },
+      { internalType: "uint256", name: "_lastChanged", type: "uint256" },
     ],
     name: "mint",
     outputs: [],
@@ -278,26 +265,9 @@ export const abi = [
       { internalType: "string", name: "_stripesSummary", type: "string" },
       { internalType: "string", name: "_description", type: "string" },
       { internalType: "string", name: "_URI", type: "string" },
+      { internalType: "uint256", name: "_lastChanged", type: "uint256" },
     ],
     name: "setFlagData",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "uint256", name: "_newMaxMintAmount", type: "uint256" },
-    ],
-    name: "setMaxMintAmount",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "uint256", name: "_newMaxSupply", type: "uint256" },
-    ],
-    name: "setMaxSupply",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
