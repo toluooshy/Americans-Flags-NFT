@@ -157,7 +157,7 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
             over to the 'Mint' page! 🇺🇸
           </p>
         )}
-        {!!tokens && !!wallet ? (
+        {!!tokens && (!!wallet || isGlobal) ? (
           tokens.map((token, index) => {
             return (
               <div
@@ -242,10 +242,12 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                   >
                     <div style={{ padding: "0px 5px" }}>Owner:</div>
                     <div>{token[0]}</div>
-                    <div style={{ padding: "0px 5px", color: "#060" }}>
-                      {token[0].toLowerCase() === wallet.toLowerCase() &&
-                        "(you)"}
-                    </div>
+                    {!!wallet && (
+                      <div style={{ padding: "0px 5px", color: "#060" }}>
+                        {token[0].toLowerCase() === wallet.toLowerCase() &&
+                          "(you)"}
+                      </div>
+                    )}
                   </div>
                   <p
                     style={{
@@ -308,22 +310,26 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                       </p>
                     </div>
                   </div>
-                  {token[0].toLowerCase() === wallet.toLowerCase() && (
+                  {!!wallet && (
                     <div>
-                      <UpdateFlagForm
-                        contract={contract}
-                        wallet={wallet}
-                        tokenId={token[1].id}
-                        dimensions={dimensions}
-                        getTokens={getTokens}
-                      />
-                      <TransferFlagForm
-                        contract={contract}
-                        wallet={wallet}
-                        dimensions={dimensions}
-                        tokenId={token[1].id}
-                        getTokens={getTokens}
-                      />{" "}
+                      {token[0].toLowerCase() === wallet.toLowerCase() && (
+                        <div>
+                          <UpdateFlagForm
+                            contract={contract}
+                            wallet={wallet}
+                            tokenId={token[1].id}
+                            dimensions={dimensions}
+                            getTokens={getTokens}
+                          />
+                          <TransferFlagForm
+                            contract={contract}
+                            wallet={wallet}
+                            dimensions={dimensions}
+                            tokenId={token[1].id}
+                            getTokens={getTokens}
+                          />{" "}
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
