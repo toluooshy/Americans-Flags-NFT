@@ -17,15 +17,15 @@ const MintPage = ({ contract, wallet, dimensions }) => {
   const [stripesImageSummary, setStripesImageSummary] = useState("");
   const [starsImages, setStarsImages] = useState([]);
   const [stripesImages, setStripesImages] = useState([]);
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [starsLinkSubmitted, setStarsLinkSubmitted] = useState(false);
   const [stripesLinkSubmitted, setStripesLinkSubmitted] = useState(false);
   const [isStarsLoading, setIsStarsLoading] = useState(false);
   const [isStripesLoading, setIsStripesLoading] = useState(false);
   const [isMintLoading, setIsMintLoading] = useState(false);
-  const [URI, setURI] = useState([]);
 
-  const isValid = starsImageUrl && stripesImageUrl && description;
+  const isValid = starsImageUrl && stripesImageUrl && name && description;
 
   const containerstyle = {
     width: "95%",
@@ -34,7 +34,6 @@ const MintPage = ({ contract, wallet, dimensions }) => {
 
   const handleMint = async () => {
     setIsMintLoading(true);
-    setURI(null);
     await contract.methods.totalSupply().call(async (err, res) => {
       if (err) {
         console.log("An error occured", err);
@@ -55,6 +54,7 @@ const MintPage = ({ contract, wallet, dimensions }) => {
         stripesTitle: stripesImageTitle || "-",
         starsSummary: starsImageSummary || "-",
         stripesSummary: stripesImageSummary || "-",
+        name: name,
         description: description,
         lastChanged: lastChanged,
         changesLeft: 3,
@@ -62,46 +62,46 @@ const MintPage = ({ contract, wallet, dimensions }) => {
       await axios
         .post("https://flag-generator-api.herokuapp.com/generate", payload)
         .then(async (response) => {
-          await setURI(response.data);
+          const URI = response.data;
+          if (URI.length > 0) {
+            await contract.methods.cost().call(async (err, res) => {
+              if (err) {
+                console.log("An error occured", err);
+                return;
+              }
+              const cost = Number(res);
+              await contract.methods
+                .mint(
+                  wallet,
+                  starsImageUrl,
+                  stripesImageUrl,
+                  starsImageTitle,
+                  stripesImageTitle,
+                  starsImageSummary,
+                  stripesImageSummary,
+                  name,
+                  description,
+                  URI,
+                  lastChanged
+                )
+                .send({ value: cost, from: wallet }, async (err, res) => {
+                  if (err) {
+                    console.log("An error occured", err);
+                    setIsMintLoading(false);
+                    return;
+                  }
+                  alert(`Transaction Received!\nTransaction Hash: ${res}`);
+                  setIsMintLoading(false);
+                });
+            });
+          } else {
+            alert("Error processing flag metadata. Please try again.");
+            setIsMintLoading(false);
+          }
         })
         .catch(() => {
           console.log("Something went wrong.");
         });
-      console.log(URI);
-      if (URI.length > 0) {
-        await contract.methods.cost().call(async (err, res) => {
-          if (err) {
-            console.log("An error occured", err);
-            return;
-          }
-          const cost = Number(res);
-          await contract.methods
-            .mint(
-              wallet,
-              starsImageUrl,
-              stripesImageUrl,
-              starsImageTitle,
-              stripesImageTitle,
-              starsImageSummary,
-              stripesImageSummary,
-              description,
-              URI,
-              lastChanged
-            )
-            .send({ value: cost, from: wallet }, async (err, res) => {
-              if (err) {
-                console.log("An error occured", err);
-                setIsMintLoading(false);
-                return;
-              }
-              alert(`Transaction Received!\nTransaction Hash: ${res}`);
-              setIsMintLoading(false);
-            });
-        });
-      } else {
-        alert("Error processing flag metadata. Please try again.");
-        setIsMintLoading(false);
-      }
     });
   };
 
@@ -240,6 +240,18 @@ const MintPage = ({ contract, wallet, dimensions }) => {
             width={Math.min(dimensions.width * 0.75, 500)}
             starsBackgroundImage={starsImageUrl}
             stripesBackgroundImage={stripesImageUrl}
+          />
+          <br />
+          <textarea
+            className="textInput"
+            style={{
+              width: "85%",
+              whiteSpace: "pre-wrap",
+            }}
+            type="text"
+            value={name}
+            placeholder="Give your flag a name."
+            onChange={(event) => setName(event.target.value)}
           />
           <br />
           <textarea

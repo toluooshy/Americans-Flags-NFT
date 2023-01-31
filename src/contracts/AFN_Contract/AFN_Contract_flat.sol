@@ -1493,6 +1493,7 @@ contract AmericansFlagsNFTtest is ERC721Enumerable, Ownable {
         string stripesTitle;
         string starsSummary;
         string stripesSummary;
+        string name;
         string description;
         string URI;
         uint256 lastChanged;
@@ -1515,6 +1516,7 @@ contract AmericansFlagsNFTtest is ERC721Enumerable, Ownable {
         string memory _stripesTitle,
         string memory _starsSummary,
         string memory _stripesSummary,
+        string memory _name,
         string memory _description,
         string memory _URI,
         uint256 _lastChanged
@@ -1533,6 +1535,7 @@ contract AmericansFlagsNFTtest is ERC721Enumerable, Ownable {
         flags[index].stripesTitle = _stripesTitle;
         flags[index].starsSummary = _starsSummary;
         flags[index].stripesSummary = _stripesSummary;
+        flags[index].name = _name;
         flags[index].description = _description;
         flags[index].URI = _URI;
         flags[index].lastChanged = _lastChanged;
@@ -1577,6 +1580,7 @@ contract AmericansFlagsNFTtest is ERC721Enumerable, Ownable {
         string memory _stripesTitle,
         string memory _starsSummary,
         string memory _stripesSummary,
+        string memory _name,
         string memory _description,
         string memory _URI,
         uint256 _lastChanged
@@ -1595,6 +1599,7 @@ contract AmericansFlagsNFTtest is ERC721Enumerable, Ownable {
         flags[_tokenId].stripesTitle = _stripesTitle;
         flags[_tokenId].starsSummary = _starsSummary;
         flags[_tokenId].stripesSummary = _stripesSummary;
+        flags[_tokenId].name = _name;
         flags[_tokenId].description = _description;
         flags[_tokenId].URI = _URI;
         flags[_tokenId].lastChanged = _lastChanged;

@@ -1,4 +1,4 @@
-export const address = "0x0803A68f4e4E8e28381540341cF332c072c9B6EB";
+export const address = "0xA8a648aF96A4Cc04A4a023Bf3002B4D0b7d632a5";
 export const abi = [
   {
     inputs: [
@@ -121,6 +121,7 @@ export const abi = [
       { internalType: "string", name: "stripesTitle", type: "string" },
       { internalType: "string", name: "starsSummary", type: "string" },
       { internalType: "string", name: "stripesSummary", type: "string" },
+      { internalType: "string", name: "name", type: "string" },
       { internalType: "string", name: "description", type: "string" },
       { internalType: "string", name: "URI", type: "string" },
       { internalType: "uint256", name: "lastChanged", type: "uint256" },
@@ -156,6 +157,7 @@ export const abi = [
       { internalType: "string", name: "_stripesTitle", type: "string" },
       { internalType: "string", name: "_starsSummary", type: "string" },
       { internalType: "string", name: "_stripesSummary", type: "string" },
+      { internalType: "string", name: "_name", type: "string" },
       { internalType: "string", name: "_description", type: "string" },
       { internalType: "string", name: "_URI", type: "string" },
       { internalType: "uint256", name: "_lastChanged", type: "uint256" },
@@ -263,6 +265,7 @@ export const abi = [
       { internalType: "string", name: "_stripesTitle", type: "string" },
       { internalType: "string", name: "_starsSummary", type: "string" },
       { internalType: "string", name: "_stripesSummary", type: "string" },
+      { internalType: "string", name: "_name", type: "string" },
       { internalType: "string", name: "_description", type: "string" },
       { internalType: "string", name: "_URI", type: "string" },
       { internalType: "uint256", name: "_lastChanged", type: "uint256" },

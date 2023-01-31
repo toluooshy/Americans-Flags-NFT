@@ -6,8 +6,6 @@ import ViewPage from "./pages/ViewPage";
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Web3Modal from "web3modal";
-import { ethers } from "ethers";
 import Web3 from "web3";
 import { address, abi } from "./contracts/AFN_Contract/contract";
 import { useWindowDimensions } from "./utils/CustomHooks";
@@ -22,22 +20,12 @@ function App() {
   const [apisReady, setApisReady] = useState(false);
   const dimensions = useWindowDimensions();
 
-  const providerOptions = {};
-
   const connectWallet = async () => {
-    try {
-      let web3Modal = new Web3Modal({
-        cacheProvider: false,
-        providerOptions,
-      });
-      const web3ModalInstance = await web3Modal.connect();
-      const web3ModalProvider = new ethers.providers.Web3Provider(
-        web3ModalInstance
-      );
-      setWallet(web3ModalProvider.provider.selectedAddress);
-    } catch (error) {
-      console.error(error);
+    async function connectWallet() {
+      const accounts = await web3.eth.requestAccounts();
+      await setWallet(accounts[0]);
     }
+    connectWallet();
   };
 
   useEffect(async () => {

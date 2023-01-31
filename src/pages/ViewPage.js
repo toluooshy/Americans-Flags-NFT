@@ -170,21 +170,31 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                 }}
               >
                 {dimensions.width < DESKTOP_MIN && (
-                  <img
-                    src={token[1].image}
-                    style={{
-                      padding: "10px",
-                      height: `${dimensions.width * 0.5}px`,
-                    }}
-                  />
+                  <div>
+                    <img
+                      src={token[1].image}
+                      style={{
+                        height: `${dimensions.width * 0.5}px`,
+                        border: "none",
+                        outline: "none",
+                      }}
+                    />
+                  </div>
                 )}
-                <div style={{ flex: "1", textAlign: "center" }}>
+                <div
+                  style={{
+                    flex: "1",
+                    justifyContent: "center",
+                    textAlign: "center",
+                    paddingLeft: "2px",
+                  }}
+                >
                   <h4
                     style={{
                       height: "10px",
                     }}
                   >
-                    {token[1].name || "Untitled"} [{token[1].edition} Edition]
+                    {token[1].name.split(":")[0]} [{token[1].edition} Edition]
                   </h4>
                   <h5
                     style={{
@@ -194,8 +204,18 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                       fontSize: "24px",
                     }}
                   >
-                    "{token[1].description || "-"}"
+                    {token[1].name.split(": ")[1] || '"Untitled"'}
                   </h5>
+                  <h5
+                    style={{
+                      height: "0px",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {token[1].description || "(No description available)"}
+                  </h5>
+                  <br />
+                  <br />
                   {Number(token[1].attributes[8].value) === 3 ? (
                     <p style={{ color: "#060", fontSize: "12px" }}>
                       (3 Changes Left)
@@ -337,9 +357,9 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                   <img
                     src={token[1].image}
                     style={{
-                      flex: "1",
-                      padding: "10px",
-                      height: `${(dimensions.width * 0.5 * 3) / 5}px`,
+                      height: `${dimensions.width / 3}px`,
+                      border: "none",
+                      outline: "none",
                     }}
                   />
                 )}

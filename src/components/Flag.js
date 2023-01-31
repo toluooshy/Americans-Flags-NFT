@@ -45,11 +45,23 @@ const Flag = ({
   return (
     <div style={flagstyle}>
       <div style={stripesstyle}>
-        <img src={stripes} alt={"stripes"} width={"100%"} height={"100%"} />
+        <img
+          src={stripes}
+          alt={"stripes"}
+          style={{ position: "relative", left: ".5px", top: "0.5px" }}
+          width={"100%"}
+          height={"99%"}
+        />
       </div>
       <div style={borderstyle} />
       <div style={starstyle}>
-        <img src={stars} alt={"stars"} width={"100%"} height={"100%"} />
+        <img
+          src={stars}
+          alt={"stars"}
+          style={{ position: "relative", left: ".5px", top: "0.5px" }}
+          width={"100%"}
+          height={"99%"}
+        />
       </div>
     </div>
   );

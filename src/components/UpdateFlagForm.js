@@ -21,16 +21,16 @@ const UpdateFlagForm = ({
   const [stripesImageSummary, setStripesImageSummary] = useState("");
   const [starsImages, setStarsImages] = useState([]);
   const [stripesImages, setStripesImages] = useState([]);
+  const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [starsLinkSubmitted, setStarsLinkSubmitted] = useState(false);
   const [stripesLinkSubmitted, setStripesLinkSubmitted] = useState(false);
   const [isStarsLoading, setIsStarsLoading] = useState(false);
   const [isStripesLoading, setIsStripesLoading] = useState(false);
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
-  const [URI, setURI] = useState(false);
   const [visibility, setVisibility] = useState(false);
 
-  const isValid = starsImageUrl && stripesImageUrl && description;
+  const isValid = starsImageUrl && stripesImageUrl && name && description;
 
   const handleUpdate = async () => {
     setIsUpdateLoading(true);
@@ -40,7 +40,7 @@ const UpdateFlagForm = ({
         return;
       }
       const lastChanged = Date.now();
-      const changesLeft = Number(res.changesLeft);
+      const changesLeft = Number(res.changesLeft) - 1;
 
       const payload = {
         id: tokenId,
@@ -54,48 +54,49 @@ const UpdateFlagForm = ({
         stripesTitle: stripesImageTitle || "-",
         starsSummary: starsImageSummary || "-",
         stripesSummary: stripesImageSummary || "-",
+        name: name,
         description: description,
         lastChanged: lastChanged,
         changesLeft: changesLeft,
       };
       await axios
         .post("https://flag-generator-api.herokuapp.com/generate", payload)
-        .then((response) => {
-          setURI(response.data);
+        .then(async (response) => {
+          const URI = response.data;
+          if (URI.length > 0) {
+            await contract.methods
+              .setFlagData(
+                tokenId,
+                starsImageUrl,
+                stripesImageUrl,
+                starsImageTitle,
+                stripesImageTitle,
+                starsImageSummary,
+                stripesImageSummary,
+                name,
+                description,
+                URI,
+                lastChanged
+              )
+              .send({ from: wallet }, async (err, res) => {
+                if (err) {
+                  setIsUpdateLoading(false);
+                  return;
+                }
+                alert(`Transaction Received!\nTransaction Hash: ${res}`);
+                setIsUpdateLoading(false);
+              })
+              .then(() => {
+                getTokens(false);
+              });
+          } else {
+            alert("Error processing flag metadata. Please try again.");
+            setIsUpdateLoading(false);
+          }
         })
         .catch(() => {
           console.log("Something went wrong.");
         });
-      console.log(URI);
-      if (URI.length > 0) {
-        await contract.methods
-          .setFlagData(
-            tokenId,
-            starsImageUrl,
-            stripesImageUrl,
-            starsImageTitle,
-            stripesImageTitle,
-            starsImageSummary,
-            stripesImageSummary,
-            description,
-            URI,
-            lastChanged
-          )
-          .send({ from: wallet }, async (err, res) => {
-            if (err) {
-              setIsUpdateLoading(false);
-              return;
-            }
-            alert(`Transaction Received!\nTransaction Hash: ${res}`);
-            setIsUpdateLoading(false);
-          })
-          .then(() => {
-            getTokens(false);
-          });
-      } else {
-        alert("Error processing flag metadata. Please try again.");
-        setIsUpdateLoading(false);
-      }
     });
   };
 
@@ -205,6 +206,28 @@ const UpdateFlagForm = ({
             starsBackgroundImage={starsImageUrl}
             stripesBackgroundImage={stripesImageUrl}
             borderColor="#222"
+          />
+          <br />
+          <label
+            style={{
+              fontSize: "10px",
+              color: !!name ? "#0c0" : "#ff4444",
+            }}
+          >
+            New Flag Name:
+          </label>
+          <br />
+          <br />
+          <textarea
+            className="textInput"
+            style={{
+              width: "85%",
+              whiteSpace: "pre-wrap",
+            }}
+            type="text"
+            value={name}
+            placeholder="Give your flag a name."
+            onChange={(event) => setName(event.target.value)}
           />
           <br />
           <label
