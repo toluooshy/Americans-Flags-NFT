@@ -1,15 +1,6 @@
-@font-face {
-  font-family: "SpaceMono";
-  src: url(./fonts/Space_Mono/SpaceMono-Regular.ttf);
-  font-style: normal;
-  font-weight: 100;
-}
-
 body {
   margin: 0;
-  font-family: SpaceMono, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-    "Helvetica Neue", sans-serif;
+  font-family: "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -17,6 +8,25 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 2px #f8f9fB; 
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ededed; 
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9a9a9a; 
 }
 
 .header a {
@@ -30,13 +40,11 @@ code {
 }
 
 .button {
-  font-family: SpaceMono, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-    "Helvetica Neue", sans-serif;
-  background-color: #000;
+  font-family: "Helvetica Neue", sans-serif;
+  background-color: #ffffff;
   border: none;
   border-radius: 0%;
-  color: #fff;
+  color: #000000;
   padding: 42x 8px;
   text-align: center;
   text-decoration: none;
@@ -48,14 +56,13 @@ code {
 }
 
 .button1 {
-  background-color: #fff; 
-  color: #000; 
-  border: 2px solid #000;
+  background-color: #000000; 
+  color: #ffffff; 
 }
 
 .button1:hover {
-  background-color: #000;
-  color: #fff;
+  background-color: #ffffff;
+  color: #000000;
 }
 
 .disabled {
@@ -68,9 +75,7 @@ code {
 }
 
 .modal {
-  font-family: sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-    "Helvetica Neue", sans-serif;
+  font-family: "Helvetica Neue", sans-serif;
   padding: 5px;
   color: #000;
   text-align: left;
@@ -81,9 +86,6 @@ code {
   cursor: pointer;
   background-color: #ffffff;
   border: solid #000;
-  font-family: SpaceMono, -apple-system, BlinkMacSystemFont, "Segoe UI",
-  "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
-  "Helvetica Neue", sans-serif;
 }
 
 .modal a {
@@ -92,4 +94,29 @@ code {
 }
 .modal a:hover {
   font-weight: bold;
+}
+
+input {
+  outline: none;
+}
+
+textarea {
+  border: none;
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+
+  resize: none;
+}
+
+#domEl {
+  position: relative;
+  height: 230px;
+  width: 500px;
+  padding: 20px;
+  background: #fff4f4;
+  border: 1px solid #ddd;
 }

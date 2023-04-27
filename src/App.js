@@ -5,7 +5,6 @@ import MintPage from "./pages/MintPage";
 import ViewPage from "./pages/ViewPage";
 import { Route, Routes } from "react-router-dom";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 import Web3 from "web3";
 import { address, abi } from "./contracts/AFN_Contract/contract";
 import { useWindowDimensions } from "./utils/CustomHooks";
@@ -89,12 +88,20 @@ function App() {
           />
         </Routes>
       ) : (
-        <div>
+        <div
+          style={{
+            backgroundColor: "#000000",
+            minHeight: `${dimensions.height + 100}px`,
+          }}
+        >
           <br />
+          <br />
+          <br />
+          <br />
+
           <LoadingObject />
         </div>
       )}
-      <Footer contract={contract} wallet={wallet} dimensions={dimensions} />
     </div>
   );
 }

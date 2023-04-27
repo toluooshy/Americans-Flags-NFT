@@ -7,10 +7,13 @@ import ImageArray from "../components/ImageArray";
 import axios from "axios";
 import { DESKTOP_MIN } from "../utils/Constants";
 import LoadingObject from "../components/LoadingObject";
+import ImageCropper from "../components/ImageCropper";
 
 const MintPage = ({ contract, wallet, dimensions }) => {
   const [starsImageUrl, setStarsImageUrl] = useState("");
   const [stripesImageUrl, setStripesImageUrl] = useState("");
+  const [starsImageBase64, setStarsImageBase64] = useState("");
+  const [stripesImageBase64, setStripesImageBase64] = useState("");
   const [starsImageTitle, setStarsImageTitle] = useState("");
   const [stripesImageTitle, setStripesImageTitle] = useState("");
   const [starsImageSummary, setStarsImageSummary] = useState("");
@@ -24,12 +27,17 @@ const MintPage = ({ contract, wallet, dimensions }) => {
   const [isStarsLoading, setIsStarsLoading] = useState(false);
   const [isStripesLoading, setIsStripesLoading] = useState(false);
   const [isMintLoading, setIsMintLoading] = useState(false);
+  const [starsCropData, setStarsCropData] = useState(null);
+  const [stripesCropData, setStripesCropData] = useState(null);
 
   const isValid = starsImageUrl && stripesImageUrl && name && description;
 
   const containerstyle = {
-    width: "95%",
-    margin: "auto",
+    backgroundColor: "#000000",
+    padding: "50px",
+    color: "#ffffff",
+    minHeight: `${dimensions.height + 100}px`,
+    textAlign: "left",
   };
 
   const handleMint = async () => {
@@ -50,6 +58,12 @@ const MintPage = ({ contract, wallet, dimensions }) => {
         stripesUrl:
           stripesImageUrl ||
           "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/1200px-HD_transparent_picture.png",
+        starsBase64:
+          starsCropData ||
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==",
+        stripesBase64:
+          stripesCropData ||
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==",
         starsTitle: starsImageTitle || "-",
         stripesTitle: stripesImageTitle || "-",
         starsSummary: starsImageSummary || "-",
@@ -63,6 +77,7 @@ const MintPage = ({ contract, wallet, dimensions }) => {
         .post("https://flag-generator-api.herokuapp.com/generate", payload)
         .then(async (response) => {
           const URI = response.data;
+          console.log(response.data);
           if (URI.length > 0) {
             await contract.methods.cost().call(async (err, res) => {
               if (err) {
@@ -101,20 +116,20 @@ const MintPage = ({ contract, wallet, dimensions }) => {
         })
         .catch(() => {
           console.log("Something went wrong.");
+          setIsMintLoading(false);
         });
     });
   };
 
   return (
     <div style={containerstyle}>
-      <h1>MINT</h1>
       <div>
         <div>
-          <h3>Step 1:</h3>
-          <h4>
+          <p style={{ fontSize: "30px" }}>Step 1:</p>
+          <p style={{ color: "#cccccc", fontSize: "20px" }}>
             Enter a url to grab source images for the stars background. (ex:
             www.pbs.org):
-          </h4>
+          </p>
           <FormUI
             setArrayImages={setStarsImages}
             setImageTitle={setStarsImageTitle}
@@ -122,10 +137,13 @@ const MintPage = ({ contract, wallet, dimensions }) => {
             setIsLoading={setIsStarsLoading}
           />
           <br />
-          <h5>Stars Background Image Title: {starsImageTitle}</h5>
+          <p style={{ color: "#cccccc", fontSize: "10px" }}>
+            Stars Background Image Title: {starsImageTitle}
+          </p>
           <ImageArray
             selection={starsImageUrl}
             setImageSelection={setStarsImageUrl}
+            setBase64Selection={setStarsImageBase64}
             setSummarySelection={setStarsImageSummary}
             isLoading={isStarsLoading}
             imgs={starsImages}
@@ -133,47 +151,45 @@ const MintPage = ({ contract, wallet, dimensions }) => {
           />
           <div
             style={{
-              display: dimensions.width > DESKTOP_MIN ? "flex" : "block",
               margin: "auto",
             }}
           >
             <div
               style={{
-                display: "flex",
-                width: "50%",
                 flexWrap: "wrap",
                 overflowWrap: "break-word",
-                margin: "auto",
               }}
             >
-              <h5 style={{ width: "100%" }}>
-                Selected Stars Background Image Url:
-              </h5>
-              <h6 style={{ color: "#0c0", width: "100%" }}>{starsImageUrl}</h6>
+              <p style={{ color: "#cccccc", fontSize: "12px" }}>
+                Selected Stars Background Image:
+              </p>
+              <ImageCropper
+                section="stars"
+                url={starsImageBase64}
+                cropData={starsCropData}
+                setCropData={setStarsCropData}
+              />
             </div>
             <div
               style={{
-                display: "flex",
-                width: "50%",
                 flexWrap: "wrap",
                 overflowWrap: "break-word",
-                margin: "auto",
               }}
             >
-              <h5 style={{ width: "100%" }}>
+              <p style={{ color: "#cccccc", fontSize: "12px" }}>
                 Selected Stars Background Image Summary:
-              </h5>
-              <h6 style={{ color: "#0c0", width: "100%" }}>
+              </p>
+              <p style={{ color: "#ffffff", fontSize: "15px" }}>
                 {starsImageSummary}
-              </h6>
+              </p>
             </div>
           </div>
           <br />
-          <h3>Step 2:</h3>
-          <h4>
+          <p style={{ fontSize: "30px" }}>Step 2:</p>
+          <p style={{ color: "#cccccc", fontSize: "20px" }}>
             Enter a url to grab source images for the stripes background. (ex:
             www.npr.com):
-          </h4>
+          </p>
           <FormUI
             setArrayImages={setStripesImages}
             setImageTitle={setStripesImageTitle}
@@ -185,6 +201,7 @@ const MintPage = ({ contract, wallet, dimensions }) => {
           <ImageArray
             selection={stripesImageUrl}
             setImageSelection={setStripesImageUrl}
+            setBase64Selection={setStripesImageBase64}
             setSummarySelection={setStripesImageSummary}
             isLoading={isStripesLoading}
             imgs={stripesImages}
@@ -192,60 +209,77 @@ const MintPage = ({ contract, wallet, dimensions }) => {
           />
           <div
             style={{
-              display: dimensions.width > DESKTOP_MIN ? "flex" : "block",
               margin: "auto",
             }}
           >
             <div
               style={{
-                display: "flex",
-                width: "50%",
                 flexWrap: "wrap",
                 overflowWrap: "break-word",
-                margin: "auto",
               }}
             >
-              <h5 style={{ width: "100%" }}>
-                Selected Stripes Background Image Url:
-              </h5>
-              <h6 style={{ color: "#0c0", width: "100%" }}>
-                {stripesImageUrl}
-              </h6>
+              <p style={{ color: "#cccccc", fontSize: "12px" }}>
+                Selected Stripes Background Image:
+              </p>
+              <ImageCropper
+                section="stripes"
+                url={stripesImageBase64}
+                cropData={stripesCropData}
+                setCropData={setStripesCropData}
+              />
             </div>
             <div
               style={{
-                display: "flex",
-                width: "50%",
                 flexWrap: "wrap",
                 overflowWrap: "break-word",
-                margin: "auto",
               }}
             >
-              <h5 style={{ width: "100%" }}>
+              <p style={{ color: "#cccccc", fontSize: "12px" }}>
                 Selected Stripes Background Image Summary:
-              </h5>
-              <h6 style={{ color: "#0c0", width: "100%" }}>
+              </p>
+              <p style={{ color: "#ffffff", fontSize: "15px" }}>
                 {stripesImageSummary}
-              </h6>
+              </p>
             </div>
           </div>
           <br />
-          <h3>Step 3:</h3>
-          <h4>
+          <p style={{ fontSize: "30px" }}>Step 3:</p>
+          <p style={{ color: "#cccccc", fontSize: "20px" }}>
             Write a short excerpt about the description, story, or significance
             of this flag:
-          </h4>
+          </p>
           <br />
-          <Flag
-            width={Math.min(dimensions.width * 0.75, 500)}
-            starsBackgroundImage={starsImageUrl}
-            stripesBackgroundImage={stripesImageUrl}
-          />
+          <div
+            style={{
+              justifyContent: "center",
+              textAlign: "center",
+            }}
+          >
+            <div
+              style={{
+                margin: "auto",
+                width:
+                  dimensions.width >= 500
+                    ? Math.min(dimensions.width * 0.75, 1000)
+                    : Math.min(dimensions.width * 0.75, 500),
+              }}
+            >
+              <Flag
+                width={
+                  dimensions.width >= 500
+                    ? Math.min(dimensions.width * 0.75, 1000)
+                    : Math.min(dimensions.width * 0.75, 500)
+                }
+                starsBackgroundImage={starsCropData}
+                stripesBackgroundImage={stripesCropData}
+              />
+            </div>
+          </div>
           <br />
           <textarea
             className="textInput"
             style={{
-              width: "85%",
+              width: "100%",
               whiteSpace: "pre-wrap",
             }}
             type="text"
@@ -257,7 +291,7 @@ const MintPage = ({ contract, wallet, dimensions }) => {
           <textarea
             className="textInput"
             style={{
-              width: "85%",
+              width: "100%",
               whiteSpace: "pre-wrap",
             }}
             type="text"
@@ -268,21 +302,23 @@ const MintPage = ({ contract, wallet, dimensions }) => {
           <br />
           <br />
           <div style={{ textAlign: "center" }}>
-            {isMintLoading && <LoadingObject size=".5" />}
+            <br />
+            <br />
+            {isMintLoading && <LoadingObject size=".25" />}{" "}
+            <button
+              style={{ width: "300px", fontSize: "20px", margin: "auto" }}
+              className={isValid ? "button button1" : "button disabled"}
+              onClick={() => {
+                !!wallet
+                  ? handleMint()
+                  : alert(
+                      "Please ensure your web3 wallet is connected before proceeding."
+                    );
+              }}
+            >
+              MINT FLAG 🇺🇸
+            </button>
           </div>
-          <button
-            style={{ width: "300px", fontSize: "20px" }}
-            className={isValid ? "button button1" : "button disabled"}
-            onClick={() => {
-              !!wallet
-                ? handleMint()
-                : alert(
-                    "Please ensure your web3 wallet is connected before proceeding."
-                  );
-            }}
-          >
-            MINT FLAG 🇺🇸
-          </button>
           <br />
           <br />
         </div>

@@ -4,6 +4,7 @@ import LoadingObject from "./LoadingObject";
 const ImageArray = ({
   setImageSelection,
   setSummarySelection,
+  setBase64Selection,
   isLoading,
   imgs,
   submitted,
@@ -15,13 +16,19 @@ const ImageArray = ({
     <div
       style={{
         display: "flex",
-        overflowX: "auto",
+        overflow: "auto",
         width: width || "100%",
         margin: "auto",
       }}
     >
       {isLoading ? (
-        <LoadingObject />
+        <div>
+          <br />
+          <br />
+          <br />
+          <br />
+          <LoadingObject />
+        </div>
       ) : imgs.length > 0 ? (
         imgs.map((img, index) => {
           return (
@@ -37,6 +44,7 @@ const ImageArray = ({
                 setSelectedIndex(index);
                 setImageSelection(img[0]);
                 setSummarySelection(img[1]);
+                setBase64Selection(img[2]);
               }}
             >
               {" "}
@@ -46,7 +54,7 @@ const ImageArray = ({
                   width: "100%",
                   flexWrap: "wrap",
                   overflowWrap: "break-word",
-                  height: "350px",
+                  height: "250px",
                   margin: "fit-content",
                   textOverflow: "ellipsis",
                 }}

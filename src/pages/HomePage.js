@@ -1,19 +1,40 @@
 "use es6";
 
 import React from "react";
+import screenshot from "../images/screenshot.png";
 
 const HomePage = ({ contract, wallet, dimensions }) => {
   const containerstyle = {
-    maxWidth: "800px",
-    margin: "auto",
+    maxWidth: "95%",
+    padding: "50px",
+    textAlign: "left",
+    backgroundColor: "#000000",
+    color: "#ffffff",
+    lineHeight: "150%",
   };
-  return (
-    <>
-      <div style={containerstyle}>
-        <h1>HOME</h1>
 
-        <h3>What is Americans Flags NFT?</h3>
-        <p>
+  return (
+    <div
+      style={{
+        backgroundColor: "#000000",
+        minHeight: `${dimensions.height + 100}px`,
+      }}
+    >
+      <div style={containerstyle}>
+        <img
+          src={screenshot}
+          alt={"A screenshot of the react webapp code."}
+          width={"100%"}
+          height={"99%"}
+        />
+
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <p style={{ fontSize: "25px" }}>Stage 1 - Sourcing Inspiration</p>
+        <p style={{ color: "#cccccc", fontSize: "14px", lineHeight: "175%" }}>
           Americans Flags NFT is a spinoff initiative inspired by the Americans
           Flags project created by Tim Ferguson Sauder through his lab Return
           Design at Olin College. During the time between December 2021 through
@@ -25,23 +46,19 @@ const HomePage = ({ contract, wallet, dimensions }) => {
           "America" means to them. All NFT's are free + gas to mint and are
           compatible with any Ethereum-supported platforms. More information
           regarding the original art project can be found at the link listed
-          below.
+          below:
         </p>
-        <a href="https://www.americansflags.net/">
+        <a style={{ color: "#aaccff" }} href="https://www.americansflags.net/">
           https://www.americansflags.net/
         </a>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </p>
 
-        <h3>The Vision:</h3>
-        <p>
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <p style={{ fontSize: "25px" }}>Stage 2 - The Vision</p>
+        <p style={{ color: "#cccccc", fontSize: "14px", lineHeight: "175%" }}>
           Americans Flags is a project created by Tim Ferguson Sauder through
           his lab Return Design at Olin College. He is an artist, designer and
           associate professor in the practice of design at Olin College of
@@ -65,8 +82,13 @@ const HomePage = ({ contract, wallet, dimensions }) => {
 
         <i>- Tim Ferguson Sauder</i>
 
-        <h3>Future Plans:</h3>
-        <p>
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <p style={{ fontSize: "25px" }}>Stage 3 - Future Plans</p>
+        <p style={{ color: "#cccccc", fontSize: "14px", lineHeight: "175%" }}>
           Although Americans Flags NFT takes inspiration from its namesake
           project, he hope is to expand this project beyond the United States
           and creaing templtes allowings citizens of the globe to express what
@@ -76,7 +98,7 @@ const HomePage = ({ contract, wallet, dimensions }) => {
         <br />
         <br />
       </div>
-    </>
+    </div>
   );
 };
 

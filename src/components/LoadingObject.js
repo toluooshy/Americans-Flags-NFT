@@ -3,11 +3,9 @@ import loading from "../images/loading.gif";
 
 const LoadingObject = ({ size = 0.33 }) => {
   const style = {
-    width: `${300 * size}px`,
-    height: `${200 * size}px`,
-    margin: "auto",
     overflow: "hidden",
-    filter: "brightness(0%)",
+    transform: "rotate(45deg)",
+    filter: "brightness(1000%)",
   };
   return (
     <div style={style}>

@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useCallback } from "react";
 import stars from "../images/stars.png";
 import stripes from "../images/stripes.png";
+import { toPng } from "html-to-image";
 
 const Flag = ({
   width,
   height = width * 0.63,
   starsBackgroundImage,
   stripesBackgroundImage,
-  borderColor,
+  borderColor = "#000000",
 }) => {
   const stripesstyle = {
     backgroundImage: `url(${stripesBackgroundImage})`,
@@ -19,7 +20,7 @@ const Flag = ({
   };
 
   const borderstyle = {
-    backgroundColor: borderColor || "#ffffff",
+    backgroundColor: borderColor || "rgba(0,0,0,0)",
     width: width * 0.478,
     height: height * 0.548,
     marginLeft: -width,
@@ -39,29 +40,60 @@ const Flag = ({
 
   const flagstyle = {
     display: "flex",
-    marginLeft: `calc(50% - ${width / 2.002}px)`,
+    maxWidth: width,
+    backgroundColor: borderColor,
   };
 
+  const ref = React.useRef();
+
+  const downloadFlag = useCallback(() => {
+    if (ref.current === null) {
+      return;
+    }
+
+    toPng(ref.current, { cacheBust: true })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.download = `AFN-${Date.now()}.png`;
+        link.href = dataUrl;
+        link.click();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [ref]);
+
   return (
-    <div style={flagstyle}>
-      <div style={stripesstyle}>
-        <img
-          src={stripes}
-          alt={"stripes"}
-          style={{ position: "relative", left: ".5px", top: "0.5px" }}
-          width={"100%"}
-          height={"99%"}
-        />
+    <div>
+      <div style={flagstyle} ref={ref}>
+        <div style={stripesstyle}>
+          <img
+            src={stripes}
+            alt={"stripes"}
+            style={{ position: "relative", left: ".5px", top: "0.5px" }}
+            width={"100%"}
+            height={"99%"}
+          />
+        </div>
+        <div style={borderstyle} />
+        <div style={starstyle}>
+          <img
+            src={stars}
+            alt={"stars"}
+            style={{ position: "relative", left: ".5px", top: "0.5px" }}
+            width={"100%"}
+            height={"99%"}
+          />
+        </div>
       </div>
-      <div style={borderstyle} />
-      <div style={starstyle}>
-        <img
-          src={stars}
-          alt={"stars"}
-          style={{ position: "relative", left: ".5px", top: "0.5px" }}
-          width={"100%"}
-          height={"99%"}
-        />
+      <div
+        style={{
+          textAlign: "center",
+        }}
+      >
+        <button className="button button2" onClick={downloadFlag}>
+          Download Flag 💾
+        </button>
       </div>
     </div>
   );
