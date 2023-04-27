@@ -12,14 +12,16 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
   const [tokens, setTokens] = useState(null);
   const [isGlobal, setIsGlobal] = useState(false);
 
+  useEffect(() => {
+    setIsGlobal(false);
+  }, []);
+
   const containerstyle = {
-    maxWidth: "1200px",
     margin: "auto",
-    padding: "50px",
+    padding: "50px 0px",
     backgroundColor: "#000000",
     minHeight: `${dimensions.height + 100}px`,
     color: "#ffffff",
-    lineHeight: "150%",
   };
 
   useEffect(() => {
@@ -156,6 +158,9 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
             OPENSEA ⛵️
           </button>
         </a>
+        <br />
+        <br />
+        <br />
         <div>
           {!!tokens && tokens.length === 0 && (
             <p style={{ fontSize: "16px" }}>
@@ -170,8 +175,7 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                   key={index}
                   style={{
                     display: dimensions.width < DESKTOP_MIN ? "block" : "flex",
-                    border: "2px solid #000",
-                    padding: "5px",
+                    padding: "50px",
                   }}
                 >
                   {dimensions.width < DESKTOP_MIN && (
@@ -190,7 +194,7 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                     style={{
                       flex: "1",
                       justifyContent: "center",
-                      textAlign: "center",
+                      textAlign: "left",
                       paddingLeft: "2px",
                       width: "100%",
                     }}
@@ -260,13 +264,12 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                     <div
                       style={{
                         display: "flex",
-                        justifyContent: "center",
                         width: "100%",
                         flexWrap: "wrap",
                         fontSize: "14px",
                       }}
                     >
-                      <div style={{ padding: "0px 5px" }}>Owner:</div>
+                      <div style={{}}>Owner:</div>
                       <div>{token[0]}</div>
                       {!!wallet && (
                         <div style={{ padding: "0px 5px", color: "#cccccc" }}>

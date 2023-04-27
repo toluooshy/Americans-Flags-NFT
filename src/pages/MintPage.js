@@ -30,7 +30,13 @@ const MintPage = ({ contract, wallet, dimensions }) => {
   const [starsCropData, setStarsCropData] = useState(null);
   const [stripesCropData, setStripesCropData] = useState(null);
 
-  const isValid = starsImageUrl && stripesImageUrl && name && description;
+  const isValid =
+    starsImageUrl &&
+    stripesImageUrl &&
+    starsCropData &&
+    stripesCropData &&
+    name &&
+    description;
 
   const containerstyle = {
     backgroundColor: "#000000",

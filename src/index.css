@@ -65,6 +65,16 @@ code {
   color: #000000;
 }
 
+.button2 {
+  background-color: #ffffff; 
+  color: #000000; 
+}
+
+.button2:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
 .disabled {
   opacity: 0.6;
   cursor: not-allowed;
@@ -110,13 +120,4 @@ textarea {
   box-shadow: none;
 
   resize: none;
-}
-
-#domEl {
-  position: relative;
-  height: 230px;
-  width: 500px;
-  padding: 20px;
-  background: #fff4f4;
-  border: 1px solid #ddd;
 }

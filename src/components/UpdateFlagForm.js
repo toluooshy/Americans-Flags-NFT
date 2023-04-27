@@ -5,6 +5,7 @@ import ImageArray from "../components/ImageArray";
 import axios from "axios";
 import { DESKTOP_MIN } from "../utils/Constants";
 import LoadingObject from "./LoadingObject";
+import ImageCropper from "../components/ImageCropper";
 
 const UpdateFlagForm = ({
   contract,
@@ -15,6 +16,8 @@ const UpdateFlagForm = ({
 }) => {
   const [starsImageUrl, setStarsImageUrl] = useState("");
   const [stripesImageUrl, setStripesImageUrl] = useState("");
+  const [starsImageBase64, setStarsImageBase64] = useState("");
+  const [stripesImageBase64, setStripesImageBase64] = useState("");
   const [starsImageTitle, setStarsImageTitle] = useState("");
   const [stripesImageTitle, setStripesImageTitle] = useState("");
   const [starsImageSummary, setStarsImageSummary] = useState("");
@@ -28,9 +31,17 @@ const UpdateFlagForm = ({
   const [isStarsLoading, setIsStarsLoading] = useState(false);
   const [isStripesLoading, setIsStripesLoading] = useState(false);
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
+  const [starsCropData, setStarsCropData] = useState(null);
+  const [stripesCropData, setStripesCropData] = useState(null);
   const [visibility, setVisibility] = useState(false);
 
-  const isValid = starsImageUrl && stripesImageUrl && name && description;
+  const isValid =
+    starsImageUrl &&
+    stripesImageUrl &&
+    starsCropData &&
+    stripesCropData &&
+    name &&
+    description;
 
   const handleUpdate = async () => {
     setIsUpdateLoading(true);
@@ -50,6 +61,12 @@ const UpdateFlagForm = ({
         stripesUrl:
           stripesImageUrl ||
           "https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/HD_transparent_picture.png/1200px-HD_transparent_picture.png",
+        starsBase64:
+          starsCropData ||
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==",
+        stripesBase64:
+          stripesCropData ||
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==",
         starsTitle: starsImageTitle || "-",
         stripesTitle: stripesImageTitle || "-",
         starsSummary: starsImageSummary || "-",
@@ -122,7 +139,7 @@ const UpdateFlagForm = ({
           }}
         >
           <p>Update Flag #{tokenId}:</p>
-          <p className="text">
+          <p className="text" style={{ color: "#cccccc" }}>
             Grab Stars Background Source Images Url: {starsImageTitle}
           </p>
           <FormUI
@@ -138,6 +155,7 @@ const UpdateFlagForm = ({
           <ImageArray
             selection={starsImageUrl}
             setImageSelection={setStarsImageUrl}
+            setBase64Selection={setStarsImageBase64}
             setSummarySelection={setStarsImageSummary}
             isLoading={isStarsLoading}
             imgs={starsImages}
@@ -146,22 +164,43 @@ const UpdateFlagForm = ({
           />
           <div
             style={{
-              display: dimensions.width > DESKTOP_MIN ? "flex" : "block",
+              margin: "auto",
+              textAlign: "left",
             }}
           >
-            <div style={{ flex: "1" }}>
-              <p className="text">Selected Stars Background Image Url:</p>
-              <p style={{ fontSize: "10px", color: "#0c0" }}>{starsImageUrl}</p>
+            <div
+              style={{
+                flexWrap: "wrap",
+                overflowWrap: "break-word",
+              }}
+            >
+              <p style={{ color: "#cccccc", fontSize: "12px" }}>
+                Selected Stars Background Image:
+              </p>
+              <ImageCropper
+                section="stars"
+                url={starsImageBase64}
+                cropData={starsCropData}
+                setCropData={setStarsCropData}
+              />
             </div>
-            <div style={{ flex: "1" }}>
-              <p className="text">Selected Stars Background Image Summary:</p>
-              <p style={{ fontSize: "10px", color: "#0c0" }}>
+            <div
+              style={{
+                flexWrap: "wrap",
+                overflowWrap: "break-word",
+              }}
+            >
+              <p style={{ color: "#cccccc", fontSize: "12px" }}>
+                Selected Stars Background Image Summary:
+              </p>
+              <p style={{ color: "#ffffff", fontSize: "15px" }}>
                 {starsImageSummary}
               </p>
             </div>
           </div>
-          <p className="text">
-            Grab Stripes Background Source Images Url: {starsImageTitle}
+          <br />
+          <p className="text" style={{ color: "#cccccc" }}>
+            Grab Stripes Background Source Images Url: {stripesImageTitle}
           </p>
           <FormUI
             setArrayImages={setStripesImages}
@@ -176,6 +215,7 @@ const UpdateFlagForm = ({
           <ImageArray
             selection={stripesImageUrl}
             setImageSelection={setStripesImageUrl}
+            setBase64Selection={setStripesImageBase64}
             setSummarySelection={setStripesImageSummary}
             isLoading={isStripesLoading}
             imgs={stripesImages}
@@ -184,29 +224,61 @@ const UpdateFlagForm = ({
           />
           <div
             style={{
-              display: dimensions.width > DESKTOP_MIN ? "flex" : "block",
+              margin: "auto",
+              textAlign: "left",
             }}
           >
-            <div style={{ flex: "1" }}>
-              <p className="text">Selected Stripes Background Image Url:</p>
-              <p style={{ fontSize: "10px", color: "#0c0" }}>
-                {stripesImageUrl}
+            <div
+              style={{
+                flexWrap: "wrap",
+                overflowWrap: "break-word",
+              }}
+            >
+              <p style={{ color: "#cccccc", fontSize: "12px" }}>
+                Selected Stripes Background Image:
               </p>
+              <ImageCropper
+                section="stripes"
+                url={stripesImageBase64}
+                cropData={stripesCropData}
+                setCropData={setStripesCropData}
+              />
             </div>
-            <div style={{ flex: "1" }}>
-              <p className="text">Selected Stripes Background Image Summary:</p>
-              <p style={{ fontSize: "10px", color: "#0c0" }}>
+            <div
+              style={{
+                flexWrap: "wrap",
+                overflowWrap: "break-word",
+              }}
+            >
+              <p style={{ color: "#cccccc", fontSize: "12px" }}>
+                Selected Stripes Background Image Summary:
+              </p>
+              <p style={{ color: "#ffffff", fontSize: "15px" }}>
                 {stripesImageSummary}
               </p>
             </div>
           </div>
-
-          <Flag
-            width={Math.min(dimensions.width * 0.6, 300)}
-            starsBackgroundImage={starsImageUrl}
-            stripesBackgroundImage={stripesImageUrl}
-            borderColor="#222"
-          />
+          <br />
+          <div
+            style={{
+              justifyContent: "center",
+              textAlign: "center",
+              backgroundColor: "#000000",
+            }}
+          >
+            <div
+              style={{
+                margin: "auto",
+                width: Math.min(dimensions.width * 0.5, 350),
+              }}
+            >
+              <Flag
+                width={Math.min(dimensions.width * 0.5, 350)}
+                starsBackgroundImage={starsCropData}
+                stripesBackgroundImage={stripesCropData}
+              />
+            </div>
+          </div>
           <br />
           <label
             style={{
@@ -253,8 +325,16 @@ const UpdateFlagForm = ({
           />
           <br />
           <br />
-          <div style={{ textAlign: "center" }}>
-            {isUpdateLoading && <LoadingObject size=".5" />}
+          <div
+            style={{
+              textAlign: "center",
+              margin: "0px 0px -50px 20px",
+              textAlign: "center",
+            }}
+          >
+            <br />
+            <br />
+            {isUpdateLoading && <LoadingObject size=".25" />}
           </div>
           <button
             style={{ width: "200px", fontSize: "15px" }}
