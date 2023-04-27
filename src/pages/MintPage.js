@@ -143,9 +143,6 @@ const MintPage = ({ contract, wallet, dimensions }) => {
             setIsLoading={setIsStarsLoading}
           />
           <br />
-          <p style={{ color: "#cccccc", fontSize: "10px" }}>
-            Stars Background Image Title: {starsImageTitle}
-          </p>
           <ImageArray
             selection={starsImageUrl}
             setImageSelection={setStarsImageUrl}
@@ -155,41 +152,48 @@ const MintPage = ({ contract, wallet, dimensions }) => {
             imgs={starsImages}
             submitted={starsLinkSubmitted}
           />
-          <div
-            style={{
-              margin: "auto",
-            }}
-          >
-            <div
-              style={{
-                flexWrap: "wrap",
-                overflowWrap: "break-word",
-              }}
-            >
-              <p style={{ color: "#cccccc", fontSize: "12px" }}>
-                Selected Stars Background Image:
+          {!!starsImageBase64 && (
+            <div>
+              <p style={{ color: "#cccccc", fontSize: "15px" }}>
+                Stars Background Image Title: {starsImageTitle}
               </p>
-              <ImageCropper
-                section="stars"
-                url={starsImageBase64}
-                cropData={starsCropData}
-                setCropData={setStarsCropData}
-              />
+              <div
+                style={{
+                  margin: "auto",
+                }}
+              >
+                <div
+                  style={{
+                    flexWrap: "wrap",
+                    overflowWrap: "break-word",
+                  }}
+                >
+                  <p style={{ color: "#cccccc", fontSize: "15px" }}>
+                    Selected Stars Background Image:
+                  </p>
+                  <ImageCropper
+                    section="stars"
+                    url={starsImageBase64}
+                    cropData={starsCropData}
+                    setCropData={setStarsCropData}
+                  />
+                </div>
+                <div
+                  style={{
+                    flexWrap: "wrap",
+                    overflowWrap: "break-word",
+                  }}
+                >
+                  <p style={{ color: "#cccccc", fontSize: "15px" }}>
+                    Selected Stars Background Image Summary:
+                  </p>
+                  <p style={{ color: "#ffffff", fontSize: "15px" }}>
+                    {starsImageSummary}
+                  </p>
+                </div>
+              </div>
             </div>
-            <div
-              style={{
-                flexWrap: "wrap",
-                overflowWrap: "break-word",
-              }}
-            >
-              <p style={{ color: "#cccccc", fontSize: "12px" }}>
-                Selected Stars Background Image Summary:
-              </p>
-              <p style={{ color: "#ffffff", fontSize: "15px" }}>
-                {starsImageSummary}
-              </p>
-            </div>
-          </div>
+          )}
           <br />
           <p style={{ fontSize: "30px" }}>Step 2:</p>
           <p style={{ color: "#cccccc", fontSize: "20px" }}>
@@ -203,7 +207,6 @@ const MintPage = ({ contract, wallet, dimensions }) => {
             setIsLoading={setIsStripesLoading}
           />
           <br />
-          <h5>Stripes Background Image Title: {stripesImageTitle}</h5>
           <ImageArray
             selection={stripesImageUrl}
             setImageSelection={setStripesImageUrl}
@@ -213,41 +216,49 @@ const MintPage = ({ contract, wallet, dimensions }) => {
             imgs={stripesImages}
             submitted={stripesLinkSubmitted}
           />
-          <div
-            style={{
-              margin: "auto",
-            }}
-          >
-            <div
-              style={{
-                flexWrap: "wrap",
-                overflowWrap: "break-word",
-              }}
-            >
-              <p style={{ color: "#cccccc", fontSize: "12px" }}>
-                Selected Stripes Background Image:
+          {!!stripesImageBase64 && (
+            <div>
+              <p style={{ color: "#cccccc", fontSize: "15px" }}>
+                Stripes Background Image Title: {stripesImageTitle}
               </p>
-              <ImageCropper
-                section="stripes"
-                url={stripesImageBase64}
-                cropData={stripesCropData}
-                setCropData={setStripesCropData}
-              />
+
+              <div
+                style={{
+                  margin: "auto",
+                }}
+              >
+                <div
+                  style={{
+                    flexWrap: "wrap",
+                    overflowWrap: "break-word",
+                  }}
+                >
+                  <p style={{ color: "#cccccc", fontSize: "15px" }}>
+                    Selected Stripes Background Image:
+                  </p>
+                  <ImageCropper
+                    section="stripes"
+                    url={stripesImageBase64}
+                    cropData={stripesCropData}
+                    setCropData={setStripesCropData}
+                  />
+                </div>
+                <div
+                  style={{
+                    flexWrap: "wrap",
+                    overflowWrap: "break-word",
+                  }}
+                >
+                  <p style={{ color: "#cccccc", fontSize: "15px" }}>
+                    Selected Stripes Background Image Summary:
+                  </p>
+                  <p style={{ color: "#ffffff", fontSize: "15px" }}>
+                    {stripesImageSummary}
+                  </p>
+                </div>
+              </div>
             </div>
-            <div
-              style={{
-                flexWrap: "wrap",
-                overflowWrap: "break-word",
-              }}
-            >
-              <p style={{ color: "#cccccc", fontSize: "12px" }}>
-                Selected Stripes Background Image Summary:
-              </p>
-              <p style={{ color: "#ffffff", fontSize: "15px" }}>
-                {stripesImageSummary}
-              </p>
-            </div>
-          </div>
+          )}
           <br />
           <p style={{ fontSize: "30px" }}>Step 3:</p>
           <p style={{ color: "#cccccc", fontSize: "20px" }}>
@@ -313,7 +324,7 @@ const MintPage = ({ contract, wallet, dimensions }) => {
             {isMintLoading && <LoadingObject size=".25" />}{" "}
             <button
               style={{ width: "300px", fontSize: "20px", margin: "auto" }}
-              className={isValid ? "button button1" : "button disabled"}
+              className={isValid ? "button" : "button disabled"}
               onClick={() => {
                 !!wallet
                   ? handleMint()
@@ -322,7 +333,7 @@ const MintPage = ({ contract, wallet, dimensions }) => {
                     );
               }}
             >
-              MINT FLAG 🇺🇸
+              Mint
             </button>
           </div>
           <br />

@@ -24,13 +24,13 @@ const TransferFlagForm = ({ contract, wallet, tokenId, getTokens }) => {
   return (
     <div style={{ lineHeight: "70%" }}>
       <button
-        className="button button1"
+        className="button"
         style={{ top: "0px", left: "0px" }}
         onClick={() => {
           setVisibility(!visibility);
         }}
       >
-        {!!visibility ? "^" : "TRANSFER FLAG >"}
+        {!!visibility ? "^" : "Transfer Flag >"}
       </button>
 
       {!!visibility && (
@@ -62,13 +62,13 @@ const TransferFlagForm = ({ contract, wallet, tokenId, getTokens }) => {
           <br />
           <br />
           <button
+            className="button"
             style={{ width: "200px", fontSize: "15px" }}
-            className="button button1"
             onClick={() => {
               handleTransfer();
             }}
           >
-            TRANSFER FLAG 🛫
+            Transfer
           </button>
         </div>
       )}

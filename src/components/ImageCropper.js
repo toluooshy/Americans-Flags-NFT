@@ -36,11 +36,11 @@ const ImageCropper = ({ section = "stripes", url, cropData, setCropData }) => {
         <div>
           {
             <button
-              className="button button2"
-              style={{ margin: "3px 10px", minWidth: "100px" }}
+              className="button"
+              style={{ margin: "3px 10px", minWidth: "50px" }}
               onClick={getCropData}
             >
-              Crop Image ✂️
+              Crop
             </button>
           }
         </div>

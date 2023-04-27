@@ -91,8 +91,8 @@ const Flag = ({
           textAlign: "center",
         }}
       >
-        <button className="button button2" onClick={downloadFlag}>
-          Download Flag 💾
+        <button className="button" onClick={downloadFlag}>
+          Download Flag
         </button>
       </div>
     </div>

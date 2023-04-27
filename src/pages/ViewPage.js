@@ -118,10 +118,11 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
     <div style={{ backgroundColor: "#000000" }}>
       <div style={containerstyle}>
         <button
-          className="button button1"
+          className="button"
           style={{
             color: !isGlobal ? "#000000" : "#ffffff",
-            backgroundColor: isGlobal ? "#000000" : "#ffffff",
+            margin: "0px 10px",
+            backgroundColor: !isGlobal && "#ffffff",
           }}
           onClick={() => {
             setIsGlobal(false);
@@ -132,21 +133,22 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                 );
           }}
         >
-          VIEW MY FLAGS 📒
+          My Flags
         </button>
 
         <button
-          className="button button1"
+          className="button"
           style={{
             color: isGlobal ? "#000000" : "#ffffff",
-            backgroundColor: !isGlobal ? "#000000" : "#ffffff",
+            margin: "0px 10px",
+            backgroundColor: isGlobal && "#ffffff",
           }}
           onClick={() => {
             setIsGlobal(true);
             getTokens(true);
           }}
         >
-          VIEW ALL FLAGS 🌎
+          All Flags
         </button>
 
         <a
@@ -154,8 +156,14 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
           target="_blank"
           rel="noopener noreferrer"
         >
-          <button className="button button1" onClick="window.location.href=''">
-            OPENSEA ⛵️
+          <button
+            className="button"
+            onClick="window.location.href=''"
+            style={{
+              margin: "0px 10px",
+            }}
+          >
+            OpenSea
           </button>
         </a>
         <br />
@@ -188,6 +196,14 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                           outline: "none",
                         }}
                       />
+                      <button
+                        className="button"
+                        onClick={() => {
+                          downloadFlag(token[1].image);
+                        }}
+                      >
+                        Download Flag
+                      </button>
                     </div>
                   )}
                   <div
@@ -250,7 +266,7 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                       </p>
                     )}
                     {!!token[1].attributes[7].value && (
-                      <p style={{ color: "#ff0", fontSize: "16px" }}>
+                      <p style={{ color: "#9c8b7e", fontSize: "16px" }}>
                         Last updated on{" "}
                         {new Date(
                           token[1].attributes[7].value
@@ -266,13 +282,13 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                         display: "flex",
                         width: "100%",
                         flexWrap: "wrap",
-                        fontSize: "14px",
+                        fontSize: "12px",
                       }}
                     >
-                      <div style={{}}>Owner:</div>
+                      <div style={{ padding: "0px 10px 0px 0px" }}>Owner:</div>
                       <div>{token[0]}</div>
                       {!!wallet && (
-                        <div style={{ padding: "0px 5px", color: "#cccccc" }}>
+                        <div style={{ padding: "0px 10px", color: "#cccccc" }}>
                           {token[0].toLowerCase() === wallet.toLowerCase() &&
                             "(you)"}
                         </div>
@@ -287,60 +303,56 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                     >
                       Flag Status: {token[1].attributes[0].value || "-"}
                     </p>
-                    <div style={{ display: "flex" }}>
+                    <div style={{ margin: "50px 0px 0px 0px" }}>
                       <div style={{ flex: "1", padding: "0px 5px 0px 0px" }}>
-                        <p style={{ color: "#cccccc", fontSize: "12px" }}>
+                        <p style={{ color: "#cccccc", fontSize: "14px" }}>
                           Stars Background Image Title:{" "}
                         </p>
                         <p
                           style={{
-                            fontSize: "12px",
+                            fontSize: "14px",
                             fontStyle: "italic",
-                            fontWeight: "bold",
                           }}
                         >
                           {token[1].attributes[2].value || "-"}
                         </p>
                       </div>
                       <div style={{ flex: "1", padding: "0px 5px 0px 0px" }}>
-                        <p style={{ color: "#cccccc", fontSize: "12px" }}>
+                        <p style={{ color: "#cccccc", fontSize: "14px" }}>
                           Stars Background Image Summary:{" "}
                         </p>
                         <p
                           style={{
-                            fontSize: "12px",
+                            fontSize: "14px",
                             fontStyle: "italic",
-                            fontWeight: "bold",
                           }}
                         >
                           {token[1].attributes[3].value || "-"}
                         </p>
                       </div>
                     </div>
-                    <div style={{ display: "flex" }}>
+                    <div style={{ margin: "0px 0px 50px 0px" }}>
                       <div style={{ flex: "1", padding: "0px 5px 0px 0px" }}>
-                        <p style={{ color: "#cccccc", fontSize: "12px" }}>
+                        <p style={{ color: "#cccccc", fontSize: "14px" }}>
                           Stripes Background Image Title:{" "}
                         </p>
                         <p
                           style={{
-                            fontSize: "12px",
+                            fontSize: "14px",
                             fontStyle: "italic",
-                            fontWeight: "bold",
                           }}
                         >
                           {token[1].attributes[5].value || "-"}
                         </p>
                       </div>
                       <div style={{ flex: "1", padding: "0px 5px 0px 0px" }}>
-                        <p style={{ color: "#cccccc", fontSize: "12px" }}>
+                        <p style={{ color: "#cccccc", fontSize: "14px" }}>
                           Stripes Background Image Summary:{" "}
                         </p>
                         <p
                           style={{
-                            fontSize: "12px",
+                            fontSize: "14px",
                             fontStyle: "italic",
-                            fontWeight: "bold",
                           }}
                         >
                           {token[1].attributes[6].value || "-"}
@@ -383,12 +395,12 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                         />
                       </div>
                       <button
-                        className="button button2"
+                        className="button"
                         onClick={() => {
                           downloadFlag(token[1].image);
                         }}
                       >
-                        Download Flag 💾
+                        Download Flag
                       </button>
                     </div>
                   )}

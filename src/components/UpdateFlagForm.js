@@ -120,13 +120,13 @@ const UpdateFlagForm = ({
   return (
     <div style={{ lineHeight: "70%" }}>
       <button
-        className="button button1"
+        className="button"
         style={{ top: "0px", left: "0px" }}
         onClick={() => {
           setVisibility(!visibility);
         }}
       >
-        {!!visibility ? "^" : "UPDATE FLAG >"}
+        {!!visibility ? "^" : "Update Flag >"}
       </button>
 
       {!!visibility && (
@@ -338,7 +338,7 @@ const UpdateFlagForm = ({
           </div>
           <button
             style={{ width: "200px", fontSize: "15px" }}
-            className={isValid ? "button button1" : "button disabled"}
+            className={isValid ? "button" : "button disabled"}
             onClick={() => {
               handleUpdate();
             }}

@@ -40,7 +40,7 @@ const FormUI = ({
           onChange={(e) => setUrl(e.target.value)}
         />
       </label>
-      <input className="button button1" type="submit" value="SUBMIT ✅" />
+      <input type="submit" value="Submit" />
     </form>
   );
 };

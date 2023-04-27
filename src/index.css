@@ -41,38 +41,18 @@ code {
 
 .button {
   font-family: "Helvetica Neue", sans-serif;
-  background-color: #ffffff;
+  background-color: #9c8b7e;
+  margin:10px 0px;
   border: none;
-  border-radius: 0%;
-  color: #000000;
-  padding: 42x 8px;
+  border-radius: 25px;
+  padding: 5px 20px;
+  color: #ffffff;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 13px;
-  margin: 6px 2px;
+  font-size: 15px;
   transition-duration: 0.4s;
   cursor: pointer;
-}
-
-.button1 {
-  background-color: #000000; 
-  color: #ffffff; 
-}
-
-.button1:hover {
-  background-color: #ffffff;
-  color: #000000;
-}
-
-.button2 {
-  background-color: #ffffff; 
-  color: #000000; 
-}
-
-.button2:hover {
-  background-color: #000000;
-  color: #ffffff;
 }
 
 .disabled {
