@@ -101,3 +101,26 @@ textarea {
 
   resize: none;
 }
+
+.dots {
+  cursor: pointer;
+  height: 10px;
+  width: 10px;
+  margin: 15px 5px;
+  border-radius: 50%;
+  display: inline-block;
+  transition: border-color 0.5s ease;
+}
+
+.carousel {
+  position: absolute;
+  background: none;
+  border: none;
+  color: #cccccc;
+  font-size: 18px;
+  margin: 0px -18px;
+}
+
+.carousel:hover {
+  color: #ffffff;
+}

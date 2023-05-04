@@ -182,226 +182,243 @@ const ViewPage = ({ contract, wallet, dimensions }) => {
                 <div
                   key={index}
                   style={{
-                    display: dimensions.width < DESKTOP_MIN ? "block" : "flex",
                     padding: "50px",
                   }}
                 >
-                  {dimensions.width < DESKTOP_MIN && (
-                    <div>
-                      <img
-                        src={token[1].image}
-                        style={{
-                          height: `${dimensions.width * 0.5}px`,
-                          border: "none",
-                          outline: "none",
-                        }}
-                      />
-                      <button
-                        className="button"
-                        onClick={() => {
-                          downloadFlag(token[1].image);
-                        }}
-                      >
-                        Download Flag
-                      </button>
-                    </div>
-                  )}
                   <div
                     style={{
-                      flex: "1",
-                      justifyContent: "center",
-                      textAlign: "left",
-                      paddingLeft: "2px",
-                      width: "100%",
+                      display:
+                        dimensions.width < DESKTOP_MIN ? "block" : "flex",
                     }}
                   >
-                    <h4
-                      style={{
-                        height: "10px",
-                      }}
-                    >
-                      {token[1].name.split(":")[0]} [{token[1].edition} Edition]
-                    </h4>
-                    <h5
-                      style={{
-                        height: "0px",
-                        fontStyle: "italic",
-                        fontWeight: "bold",
-                        fontSize: "24px",
-                      }}
-                    >
-                      {token[1].name.split(": ")[1] || '"Untitled"'}
-                    </h5>
-                    <h5
-                      style={{
-                        height: "0px",
-                        fontStyle: "italic",
-                      }}
-                    >
-                      {token[1].description || "(No description available)"}
-                    </h5>
-                    <br />
-                    <br />
-                    {Number(token[1].attributes[8].value) === 3 ? (
-                      <p style={{ color: "#0f0", fontSize: "16px" }}>
-                        (3 Changes Left)
-                      </p>
-                    ) : Number(token[1].attributes[8].value) === 2 ? (
-                      <p style={{ color: "#fc0", fontSize: "16px" }}>
-                        (2 Changes Left)
-                      </p>
-                    ) : Number(token[1].attributes[8].value) === 1 ? (
-                      <p style={{ color: "#f00", fontSize: "16px" }}>
-                        (1 Change Left)
-                      </p>
-                    ) : (
-                      <p
-                        style={{
-                          color: "#000",
-                          fontSize: "16px",
-                          fontStyle: "italic",
-                        }}
-                      >
-                        (Locked)
-                      </p>
-                    )}
-                    {!!token[1].attributes[7].value && (
-                      <p style={{ color: "#9c8b7e", fontSize: "16px" }}>
-                        Last updated on{" "}
-                        {new Date(
-                          token[1].attributes[7].value
-                        ).toLocaleDateString(undefined, {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        })}
-                      </p>
-                    )}
-                    <div
-                      style={{
-                        display: "flex",
-                        width: "100%",
-                        flexWrap: "wrap",
-                        fontSize: "12px",
-                      }}
-                    >
-                      <div style={{ padding: "0px 10px 0px 0px" }}>Owner:</div>
-                      <div>{token[0]}</div>
-                      {!!wallet && (
-                        <div style={{ padding: "0px 10px", color: "#cccccc" }}>
-                          {token[0].toLowerCase() === wallet.toLowerCase() &&
-                            "(you)"}
-                        </div>
-                      )}
-                    </div>
-                    <p
-                      style={{
-                        fontSize: "18px",
-                        fontStyle: "italic",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Flag Status: {token[1].attributes[0].value || "-"}
-                    </p>
-                    <div style={{ margin: "50px 0px 0px 0px" }}>
-                      <div style={{ flex: "1", padding: "0px 5px 0px 0px" }}>
-                        <p style={{ color: "#cccccc", fontSize: "14px" }}>
-                          Stars Background Image Title:{" "}
-                        </p>
-                        <p
-                          style={{
-                            fontSize: "14px",
-                            fontStyle: "italic",
-                          }}
-                        >
-                          {token[1].attributes[2].value || "-"}
-                        </p>
-                      </div>
-                      <div style={{ flex: "1", padding: "0px 5px 0px 0px" }}>
-                        <p style={{ color: "#cccccc", fontSize: "14px" }}>
-                          Stars Background Image Summary:{" "}
-                        </p>
-                        <p
-                          style={{
-                            fontSize: "14px",
-                            fontStyle: "italic",
-                          }}
-                        >
-                          {token[1].attributes[3].value || "-"}
-                        </p>
-                      </div>
-                    </div>
-                    <div style={{ margin: "0px 0px 50px 0px" }}>
-                      <div style={{ flex: "1", padding: "0px 5px 0px 0px" }}>
-                        <p style={{ color: "#cccccc", fontSize: "14px" }}>
-                          Stripes Background Image Title:{" "}
-                        </p>
-                        <p
-                          style={{
-                            fontSize: "14px",
-                            fontStyle: "italic",
-                          }}
-                        >
-                          {token[1].attributes[5].value || "-"}
-                        </p>
-                      </div>
-                      <div style={{ flex: "1", padding: "0px 5px 0px 0px" }}>
-                        <p style={{ color: "#cccccc", fontSize: "14px" }}>
-                          Stripes Background Image Summary:{" "}
-                        </p>
-                        <p
-                          style={{
-                            fontSize: "14px",
-                            fontStyle: "italic",
-                          }}
-                        >
-                          {token[1].attributes[6].value || "-"}
-                        </p>
-                      </div>
-                    </div>
-                    {!!wallet && (
-                      <div>
-                        {token[0].toLowerCase() === wallet.toLowerCase() && (
-                          <div>
-                            <UpdateFlagForm
-                              contract={contract}
-                              wallet={wallet}
-                              tokenId={token[1].id}
-                              dimensions={dimensions}
-                              getTokens={getTokens}
-                            />
-                            <TransferFlagForm
-                              contract={contract}
-                              wallet={wallet}
-                              dimensions={dimensions}
-                              tokenId={token[1].id}
-                              getTokens={getTokens}
-                            />{" "}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  {dimensions.width > DESKTOP_MIN && (
-                    <div>
+                    {dimensions.width < DESKTOP_MIN && (
                       <div>
                         <img
                           src={token[1].image}
                           style={{
-                            height: `${dimensions.width / 3}px`,
+                            height: `${dimensions.width * 0.5}px`,
                             border: "none",
                             outline: "none",
                           }}
                         />
+                        <button
+                          className="button"
+                          onClick={() => {
+                            downloadFlag(token[1].image);
+                          }}
+                        >
+                          Download Flag
+                        </button>
                       </div>
-                      <button
-                        className="button"
-                        onClick={() => {
-                          downloadFlag(token[1].image);
+                    )}
+                    <div
+                      style={{
+                        flex: "1",
+                        justifyContent: "center",
+                        textAlign: "left",
+                        paddingLeft: "2px",
+                        width: "100%",
+                      }}
+                    >
+                      <h4
+                        style={{
+                          height: "10px",
                         }}
                       >
-                        Download Flag
-                      </button>
+                        {token[1].name.split(":")[0]} [{token[1].edition}{" "}
+                        Edition]
+                      </h4>
+                      <h5
+                        style={{
+                          height: "0px",
+                          fontStyle: "italic",
+                          fontWeight: "bold",
+                          fontSize: "24px",
+                        }}
+                      >
+                        {token[1].name.split(": ")[1] || '"Untitled"'}
+                      </h5>
+                      <h5
+                        style={{
+                          height: "0px",
+                          fontStyle: "italic",
+                        }}
+                      >
+                        {token[1].description || "(No description available)"}
+                      </h5>
+                      <br />
+                      <br />
+                      {Number(token[1].attributes[8].value) === 3 ? (
+                        <p style={{ color: "#0f0", fontSize: "16px" }}>
+                          (3 Changes Left)
+                        </p>
+                      ) : Number(token[1].attributes[8].value) === 2 ? (
+                        <p style={{ color: "#fc0", fontSize: "16px" }}>
+                          (2 Changes Left)
+                        </p>
+                      ) : Number(token[1].attributes[8].value) === 1 ? (
+                        <p style={{ color: "#f00", fontSize: "16px" }}>
+                          (1 Change Left)
+                        </p>
+                      ) : (
+                        <p
+                          style={{
+                            color: "#000",
+                            fontSize: "16px",
+                            fontStyle: "italic",
+                          }}
+                        >
+                          (Locked)
+                        </p>
+                      )}
+                      {!!token[1].attributes[7].value && (
+                        <p style={{ color: "#9c8b7e", fontSize: "16px" }}>
+                          Last updated on{" "}
+                          {new Date(
+                            token[1].attributes[7].value
+                          ).toLocaleDateString(undefined, {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </p>
+                      )}
+                      <div
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          flexWrap: "wrap",
+                          fontSize: "12px",
+                        }}
+                      >
+                        <div style={{ padding: "0px 10px 0px 0px" }}>
+                          Owner:
+                        </div>
+                        <div style={{ display: "flex" }}>
+                          <div style={{ fontSize: "10px" }}>{token[0]}</div>
+                          {!!wallet && (
+                            <div
+                              style={{
+                                fontSize: "10px",
+                                padding: "0px 5px",
+                                color: "#cccccc",
+                              }}
+                            >
+                              {token[0].toLowerCase() ===
+                                wallet.toLowerCase() && "(you)"}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <p
+                        style={{
+                          fontSize: "18px",
+                          fontStyle: "italic",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Status: {token[1].attributes[0].value || "-"}
+                      </p>
+                      <div style={{ margin: "25px 0px 0px 0px" }}>
+                        <div style={{ flex: "1", padding: "0px 5px 0px 0px" }}>
+                          <p style={{ color: "#cccccc", fontSize: "15px" }}>
+                            Stars Background Image Title:{" "}
+                          </p>
+                          <p
+                            style={{
+                              fontSize: "15px",
+                              fontStyle: "italic",
+                            }}
+                          >
+                            {token[1].attributes[2].value || "-"}
+                          </p>
+                        </div>
+                        <div style={{ flex: "1", padding: "0px 5px 0px 0px" }}>
+                          <p style={{ color: "#cccccc", fontSize: "15px" }}>
+                            Stars Background Image Summary:{" "}
+                          </p>
+                          <p
+                            style={{
+                              fontSize: "15px",
+                              fontStyle: "italic",
+                            }}
+                          >
+                            {token[1].attributes[3].value || "-"}
+                          </p>
+                        </div>
+                      </div>
+                      <div style={{ margin: "0px 0px 50px 0px" }}>
+                        <div style={{ flex: "1", padding: "0px 5px 0px 0px" }}>
+                          <p style={{ color: "#cccccc", fontSize: "15px" }}>
+                            Stripes Background Image Title:{" "}
+                          </p>
+                          <p
+                            style={{
+                              fontSize: "15px",
+                              fontStyle: "italic",
+                            }}
+                          >
+                            {token[1].attributes[5].value || "-"}
+                          </p>
+                        </div>
+                        <div style={{ flex: "1", padding: "0px 5px 0px 0px" }}>
+                          <p style={{ color: "#cccccc", fontSize: "15px" }}>
+                            Stripes Background Image Summary:{" "}
+                          </p>
+                          <p
+                            style={{
+                              fontSize: "15px",
+                              fontStyle: "italic",
+                            }}
+                          >
+                            {token[1].attributes[6].value || "-"}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    {dimensions.width > DESKTOP_MIN && (
+                      <div>
+                        <div>
+                          <img
+                            src={token[1].image}
+                            style={{
+                              height: `${dimensions.width / 3}px`,
+                              border: "none",
+                              outline: "none",
+                            }}
+                          />
+                        </div>
+                        <button
+                          className="button"
+                          onClick={() => {
+                            downloadFlag(token[1].image);
+                          }}
+                        >
+                          Download Flag
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                  {!!wallet && (
+                    <div style={{ textAlign: "left" }}>
+                      {token[0].toLowerCase() === wallet.toLowerCase() && (
+                        <div>
+                          <UpdateFlagForm
+                            contract={contract}
+                            wallet={wallet}
+                            tokenId={token[1].id}
+                            dimensions={dimensions}
+                            getTokens={getTokens}
+                          />
+                          <TransferFlagForm
+                            contract={contract}
+                            wallet={wallet}
+                            dimensions={dimensions}
+                            tokenId={token[1].id}
+                            getTokens={getTokens}
+                          />
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>

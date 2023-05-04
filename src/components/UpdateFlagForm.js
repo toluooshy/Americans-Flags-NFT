@@ -118,7 +118,7 @@ const UpdateFlagForm = ({
   };
 
   return (
-    <div style={{ lineHeight: "70%" }}>
+    <div style={{ textAlign: "left" }}>
       <button
         className="button"
         style={{ top: "0px", left: "0px" }}
@@ -133,14 +133,13 @@ const UpdateFlagForm = ({
         <div
           style={{
             color: "#eeeeee",
-            textAlign: "center",
             padding: "1px 20px",
             backgroundColor: "#222",
           }}
         >
-          <p>Update Flag #{tokenId}:</p>
-          <p className="text" style={{ color: "#cccccc" }}>
-            Grab Stars Background Source Images Url: {starsImageTitle}
+          <p style={{ fontSize: "30px" }}>Update Flag #{tokenId}:</p>
+          <p className="text" style={{ color: "#cccccc", fontSize: "15px" }}>
+            Stars background source images url: {starsImageTitle}
           </p>
           <FormUI
             setArrayImages={setStarsImages}
@@ -149,9 +148,6 @@ const UpdateFlagForm = ({
             setIsLoading={setIsStarsLoading}
           />
           <br />
-          <p className="text">
-            Stars Background Image Title: {starsImageTitle}
-          </p>
           <ImageArray
             selection={starsImageUrl}
             setImageSelection={setStarsImageUrl}
@@ -160,47 +156,56 @@ const UpdateFlagForm = ({
             isLoading={isStarsLoading}
             imgs={starsImages}
             submitted={starsLinkSubmitted}
-            width={dimensions.width * 0.4}
+            width="100%"
           />
-          <div
-            style={{
-              margin: "auto",
-              textAlign: "left",
-            }}
-          >
-            <div
-              style={{
-                flexWrap: "wrap",
-                overflowWrap: "break-word",
-              }}
-            >
-              <p style={{ color: "#cccccc", fontSize: "12px" }}>
-                Selected Stars Background Image:
+          {!!starsImageBase64 && (
+            <div>
+              <p
+                className="text"
+                style={{ color: "#cccccc", fontSize: "15px" }}
+              >
+                Stars background image title: {starsImageTitle}
               </p>
-              <ImageCropper
-                section="stars"
-                url={starsImageBase64}
-                cropData={starsCropData}
-                setCropData={setStarsCropData}
-              />
+              <div
+                style={{
+                  margin: "auto",
+                }}
+              >
+                <div
+                  style={{
+                    flexWrap: "wrap",
+                    overflowWrap: "break-word",
+                  }}
+                >
+                  <p style={{ color: "#cccccc", fontSize: "15px" }}>
+                    Selected stars background image:
+                  </p>
+                  <ImageCropper
+                    section="stars"
+                    url={starsImageBase64}
+                    cropData={starsCropData}
+                    setCropData={setStarsCropData}
+                  />
+                </div>
+                <div
+                  style={{
+                    flexWrap: "wrap",
+                    overflowWrap: "break-word",
+                  }}
+                >
+                  <p style={{ color: "#cccccc", fontSize: "15px" }}>
+                    Selected stars background image summary:
+                  </p>
+                  <p style={{ color: "#ffffff", fontSize: "15px" }}>
+                    {starsImageSummary}
+                  </p>
+                </div>
+              </div>
             </div>
-            <div
-              style={{
-                flexWrap: "wrap",
-                overflowWrap: "break-word",
-              }}
-            >
-              <p style={{ color: "#cccccc", fontSize: "12px" }}>
-                Selected Stars Background Image Summary:
-              </p>
-              <p style={{ color: "#ffffff", fontSize: "15px" }}>
-                {starsImageSummary}
-              </p>
-            </div>
-          </div>
+          )}
           <br />
-          <p className="text" style={{ color: "#cccccc" }}>
-            Grab Stripes Background Source Images Url: {stripesImageTitle}
+          <p className="text" style={{ color: "#cccccc", fontSize: "15px" }}>
+            Stripes background source images url: {stripesImageTitle}
           </p>
           <FormUI
             setArrayImages={setStripesImages}
@@ -209,9 +214,6 @@ const UpdateFlagForm = ({
             setIsLoading={setIsStripesLoading}
           />
           <br />
-          <p className="text">
-            Stripes Background Image Title: {stripesImageTitle}
-          </p>
           <ImageArray
             selection={stripesImageUrl}
             setImageSelection={setStripesImageUrl}
@@ -220,49 +222,56 @@ const UpdateFlagForm = ({
             isLoading={isStripesLoading}
             imgs={stripesImages}
             submitted={stripesLinkSubmitted}
-            width={dimensions.width * 0.4}
+            width="100%"
           />
-          <div
-            style={{
-              margin: "auto",
-              textAlign: "left",
-            }}
-          >
-            <div
-              style={{
-                flexWrap: "wrap",
-                overflowWrap: "break-word",
-              }}
-            >
-              <p style={{ color: "#cccccc", fontSize: "12px" }}>
-                Selected Stripes Background Image:
+          {!!stripesImageBase64 && (
+            <div>
+              <p
+                className="text"
+                style={{ color: "#cccccc", fontSize: "15px" }}
+              >
+                Stripes background image title: {stripesImageTitle}
               </p>
-              <ImageCropper
-                section="stripes"
-                url={stripesImageBase64}
-                cropData={stripesCropData}
-                setCropData={setStripesCropData}
-              />
+              <div
+                style={{
+                  margin: "auto",
+                }}
+              >
+                <div
+                  style={{
+                    flexWrap: "wrap",
+                    overflowWrap: "break-word",
+                  }}
+                >
+                  <p style={{ color: "#cccccc", fontSize: "15px" }}>
+                    Selected stripes background image:
+                  </p>
+                  <ImageCropper
+                    section="stripes"
+                    url={stripesImageBase64}
+                    cropData={stripesCropData}
+                    setCropData={setStripesCropData}
+                  />
+                </div>
+                <div
+                  style={{
+                    flexWrap: "wrap",
+                    overflowWrap: "break-word",
+                  }}
+                >
+                  <p style={{ color: "#cccccc", fontSize: "15px" }}>
+                    Selected stripes background image summary:
+                  </p>
+                  <p style={{ color: "#ffffff", fontSize: "15px" }}>
+                    {stripesImageSummary}
+                  </p>
+                </div>
+              </div>
             </div>
-            <div
-              style={{
-                flexWrap: "wrap",
-                overflowWrap: "break-word",
-              }}
-            >
-              <p style={{ color: "#cccccc", fontSize: "12px" }}>
-                Selected Stripes Background Image Summary:
-              </p>
-              <p style={{ color: "#ffffff", fontSize: "15px" }}>
-                {stripesImageSummary}
-              </p>
-            </div>
-          </div>
+          )}
           <br />
           <div
             style={{
-              justifyContent: "center",
-              textAlign: "center",
               backgroundColor: "#000000",
             }}
           >
@@ -280,56 +289,53 @@ const UpdateFlagForm = ({
             </div>
           </div>
           <br />
-          <label
-            style={{
-              fontSize: "10px",
-              color: !!name ? "#0c0" : "#ff4444",
-            }}
-          >
-            New Flag Name:
-          </label>
-          <br />
-          <br />
-          <textarea
-            className="textInput"
-            style={{
-              width: "85%",
-              whiteSpace: "pre-wrap",
-            }}
-            type="text"
-            value={name}
-            placeholder="Give your flag a name."
-            onChange={(event) => setName(event.target.value)}
-          />
-          <br />
-          <label
-            style={{
-              fontSize: "10px",
-              color: !!description ? "#0c0" : "#ff4444",
-            }}
-          >
-            New Flag Description:
-          </label>
-          <br />
-          <br />
-          <textarea
-            className="textInput"
-            style={{
-              width: "85%",
-              whiteSpace: "pre-wrap",
-            }}
-            type="text"
-            value={description}
-            placeholder="Write your flag description here..."
-            onChange={(event) => setDescription(event.target.value)}
-          />
+          <div style={{ padding: "0px 4px 0px 0px" }}>
+            <p
+              style={{
+                margin: "11px 0px",
+                fontSize: "13px",
+                color: !!name ? "#0c0" : "#ff4444",
+              }}
+            >
+              New name*
+            </p>
+
+            <textarea
+              className="textInput"
+              style={{
+                width: "100%",
+                whiteSpace: "pre-wrap",
+              }}
+              type="text"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+            />
+            <br />
+            <p
+              style={{
+                margin: "11px 0px",
+                fontSize: "13px",
+                color: !!description ? "#0c0" : "#ff4444",
+              }}
+            >
+              New description*
+            </p>
+            <textarea
+              className="textInput"
+              style={{
+                width: "100%",
+                whiteSpace: "pre-wrap",
+              }}
+              type="text"
+              value={description}
+              onChange={(event) => setDescription(event.target.value)}
+            />
+          </div>
           <br />
           <br />
           <div
             style={{
-              textAlign: "center",
               margin: "0px 0px -50px 20px",
-              textAlign: "center",
             }}
           >
             <br />
@@ -337,14 +343,16 @@ const UpdateFlagForm = ({
             {isUpdateLoading && <LoadingObject size=".25" />}
           </div>
           <button
-            style={{ width: "200px", fontSize: "15px" }}
+            style={{ width: "250px", fontSize: "20px" }}
             className={isValid ? "button" : "button disabled"}
             onClick={() => {
               handleUpdate();
             }}
           >
-            UPDATE FLAG 🪡
+            Update
           </button>
+          <br />
+          <br />
         </div>
       )}
     </div>

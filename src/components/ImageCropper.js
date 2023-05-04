@@ -49,11 +49,7 @@ const ImageCropper = ({ section = "stripes", url, cropData, setCropData }) => {
         <div style={{ display: "block" }}>
           <p>Cropped Image:</p>
           {!!cropData ? (
-            <img
-              src={cropData}
-              alt="Cropped Image"
-              style={{ maxWidth: "100%" }}
-            />
+            <img src={cropData} alt="Cropped Image" style={{ width: "100%" }} />
           ) : (
             <p>Select an image from above first that you would like to crop.</p>
           )}

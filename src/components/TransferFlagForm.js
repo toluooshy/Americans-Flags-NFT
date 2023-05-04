@@ -37,39 +37,48 @@ const TransferFlagForm = ({ contract, wallet, tokenId, getTokens }) => {
         <div
           style={{
             color: "#eeeeee",
-            textAlign: "center",
+            textAlign: "left",
             padding: "1px 20px",
             backgroundColor: "#222",
           }}
         >
-          <p>Transfer Flag #{tokenId}:</p>
-          <label
-            style={{
-              fontSize: "12px",
-              color: !!recipientAddress ? "#060" : "#b00",
-            }}
-          >
-            Recipient Address:
-          </label>
+          <p style={{ fontSize: "30px" }}>Transfer Flag #{tokenId}:</p>
           <br />
-          <br />
-          <input
-            className="textInput"
-            type="text"
-            value={recipientAddress}
-            onChange={(event) => setRecipientAddress(event.target.value)}
-          />
+          <div style={{ padding: "0px 10px 0px 0px" }}>
+            <p
+              style={{
+                margin: "0px 0px 11px 0px",
+                fontSize: "13px",
+                color: !!recipientAddress ? "#0c0" : "#ff4444",
+              }}
+            >
+              Recipient Address*
+            </p>
+            <input
+              className="textInput"
+              style={{
+                padding: "5px",
+                margin: "0px 10px 0px 0px",
+                width: "100%",
+              }}
+              type="text"
+              value={recipientAddress}
+              onChange={(event) => setRecipientAddress(event.target.value)}
+            />
+          </div>
           <br />
           <br />
           <button
             className="button"
-            style={{ width: "200px", fontSize: "15px" }}
+            style={{ width: "250px", fontSize: "20px" }}
             onClick={() => {
               handleTransfer();
             }}
           >
             Transfer
           </button>
+          <br />
+          <br />
         </div>
       )}
     </div>

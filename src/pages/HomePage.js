@@ -1,7 +1,12 @@
 "use es6";
 
 import React from "react";
+import flag from "../images/flag.png";
+import nft from "../images/nft.png";
+import showcase from "../images/showcase.jpg";
+import polygonscan from "../images/polygonscan.png";
 import screenshot from "../images/screenshot.png";
+import Carousel from "../components/Carousel";
 
 const HomePage = ({ contract, wallet, dimensions }) => {
   const containerstyle = {
@@ -21,11 +26,41 @@ const HomePage = ({ contract, wallet, dimensions }) => {
       }}
     >
       <div style={containerstyle}>
-        <img
-          src={screenshot}
-          alt={"A screenshot of the react webapp code."}
-          width={"100%"}
-          height={"99%"}
+        <Carousel
+          data={[
+            <img
+              src={flag}
+              alt={"Original flag inspiration."}
+              width={"100%"}
+              height={"99%"}
+            />,
+            <img
+              src={nft}
+              alt={"NFT flag adaptation."}
+              width={"100%"}
+              height={"99%"}
+            />,
+            <img
+              src={showcase}
+              alt={
+                "Tim Sauder showcasing the original Americans Flags collection."
+              }
+              width={"100%"}
+              height={"99%"}
+            />,
+            <img
+              src={polygonscan}
+              alt={"A screenshot of the NFT smart contract on Polygonscan."}
+              width={"100%"}
+              height={"99%"}
+            />,
+            <img
+              src={screenshot}
+              alt={"A screenshot of the react webapp code."}
+              width={"100%"}
+              height={"99%"}
+            />,
+          ]}
         />
 
         <br />
@@ -34,7 +69,7 @@ const HomePage = ({ contract, wallet, dimensions }) => {
         <br />
 
         <p style={{ fontSize: "25px" }}>Stage 1 - Sourcing Inspiration</p>
-        <p style={{ color: "#cccccc", fontSize: "14px", lineHeight: "175%" }}>
+        <p style={{ color: "#cccccc", fontSize: "16px", lineHeight: "175%" }}>
           Americans Flags NFT is a spinoff initiative inspired by the Americans
           Flags project created by Tim Ferguson Sauder through his lab Return
           Design at Olin College. During the time between December 2021 through
@@ -44,7 +79,7 @@ const HomePage = ({ contract, wallet, dimensions }) => {
           decentralized application (dapp) enables users to mint non-fungible
           tokens (NFT's) in the shape of the United States flag to express what
           "America" means to them. All NFT's are free + gas to mint and are
-          compatible with any Ethereum-supported platforms. More information
+          compatible with any Polygon-supported platforms. More information
           regarding the original art project can be found at the link listed
           below:
         </p>
@@ -58,7 +93,7 @@ const HomePage = ({ contract, wallet, dimensions }) => {
         <br />
 
         <p style={{ fontSize: "25px" }}>Stage 2 - The Vision</p>
-        <p style={{ color: "#cccccc", fontSize: "14px", lineHeight: "175%" }}>
+        <p style={{ color: "#cccccc", fontSize: "16px", lineHeight: "175%" }}>
           Americans Flags is a project created by Tim Ferguson Sauder through
           his lab Return Design at Olin College. He is an artist, designer and
           associate professor in the practice of design at Olin College of
@@ -88,7 +123,7 @@ const HomePage = ({ contract, wallet, dimensions }) => {
         <br />
 
         <p style={{ fontSize: "25px" }}>Stage 3 - Future Plans</p>
-        <p style={{ color: "#cccccc", fontSize: "14px", lineHeight: "175%" }}>
+        <p style={{ color: "#cccccc", fontSize: "16px", lineHeight: "175%" }}>
           Although Americans Flags NFT takes inspiration from its namesake
           project, he hope is to expand this project beyond the United States
           and creaing templtes allowings citizens of the globe to express what

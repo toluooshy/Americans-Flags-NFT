@@ -11,7 +11,7 @@ const LoadingObject = ({ size = 0.33 }) => {
     <div style={style}>
       <img
         style={{
-          margin: `${-230 * size}px 0 0 ${-345 * size}px`,
+          margin: `${-230 * size}px 0 0 ${-230 * size}px`,
           width: `${990 * size}px`,
           height: `${660 * size}px`,
         }}

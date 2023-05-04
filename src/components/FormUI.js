@@ -33,14 +33,18 @@ const FormUI = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>
-        <input
-          type="text"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-        />
-      </label>
-      <input type="submit" value="Submit" />
+      <input
+        style={{
+          padding: "5px",
+          margin: "0px 10px 0px 0px",
+          minWidth: "200px",
+          maxWidth: "300px",
+        }}
+        type="text"
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+      />
+      <input className="button" type="submit" value="Submit" />
     </form>
   );
 };

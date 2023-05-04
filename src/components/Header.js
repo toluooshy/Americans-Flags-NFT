@@ -13,6 +13,8 @@ const Header = ({ web3, contract, wallet, dimensions, connectWallet }) => {
   const location = useLocation();
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
+  const navigate = useNavigate();
+
   return (
     <div style={{ backgroundColor: "#000000" }}>
       <div
@@ -29,7 +31,14 @@ const Header = ({ web3, contract, wallet, dimensions, connectWallet }) => {
             textAlign: "left",
           }}
         >
-          <div style={{ fontSize: "25px" }}>Americans Flags NFT</div>
+          <div
+            style={{ fontSize: "25px" }}
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Americans Flags NFT
+          </div>
           <div
             style={{
               margin: "10px 0px",
@@ -137,6 +146,7 @@ const Header = ({ web3, contract, wallet, dimensions, connectWallet }) => {
               right: "0px",
               bottom: "0px",
               left: "0px",
+              zIndex: "5",
               backgroundColor: "#000000",
             }}
           >
@@ -154,7 +164,14 @@ const Header = ({ web3, contract, wallet, dimensions, connectWallet }) => {
                   textAlign: "left",
                 }}
               >
-                <div style={{ fontSize: "25px" }}>Americans Flags NFT</div>
+                <div
+                  style={{ fontSize: "25px" }}
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  Americans Flags NFT
+                </div>
                 <div
                   style={{
                     margin: "10px 0px",
@@ -198,7 +215,15 @@ const Header = ({ web3, contract, wallet, dimensions, connectWallet }) => {
                 }}
               />
             </div>
-            <div style={{ margin: "200px 0px", fontSize: "48px" }}>
+            <div
+              style={{
+                margin: `${dimensions.height * 0.25}px
+                 0px`,
+                fontSize: "48px",
+                textAlign: "center",
+                justifyContent: "center",
+              }}
+            >
               <Link
                 to="/"
                 style={{

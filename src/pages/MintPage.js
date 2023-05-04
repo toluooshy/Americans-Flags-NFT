@@ -293,6 +293,7 @@ const MintPage = ({ contract, wallet, dimensions }) => {
             </div>
           </div>
           <br />
+          <p style={{ margin: "11px 0px", fontSize: "13px" }}>Flag name*</p>
           <textarea
             className="textInput"
             style={{
@@ -301,10 +302,12 @@ const MintPage = ({ contract, wallet, dimensions }) => {
             }}
             type="text"
             value={name}
-            placeholder="Give your flag a name."
             onChange={(event) => setName(event.target.value)}
           />
           <br />
+          <p style={{ margin: "11px 0px", fontSize: "13px" }}>
+            Flag description*
+          </p>
           <textarea
             className="textInput"
             style={{
@@ -313,17 +316,16 @@ const MintPage = ({ contract, wallet, dimensions }) => {
             }}
             type="text"
             value={description}
-            placeholder="Write your flag description here..."
             onChange={(event) => setDescription(event.target.value)}
           />
           <br />
           <br />
-          <div style={{ textAlign: "center" }}>
+          <div style={{ textAlign: "center", justifyContent: "Center" }}>
             <br />
             <br />
             {isMintLoading && <LoadingObject size=".25" />}{" "}
             <button
-              style={{ width: "300px", fontSize: "20px", margin: "auto" }}
+              style={{ width: "250px", fontSize: "20px", margin: "auto" }}
               className={isValid ? "button" : "button disabled"}
               onClick={() => {
                 !!wallet
