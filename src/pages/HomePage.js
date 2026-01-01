@@ -84,7 +84,7 @@ const HomePage = ({ contract, wallet, dimensions }) => {
           below:
         </p>
         <a style={{ color: "#aaccff" }} href="https://www.americansflags.net/">
-          https://www.americansflags.net/
+          https://www.americansflags.net
         </a>
 
         <br />
