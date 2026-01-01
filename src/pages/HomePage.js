@@ -126,7 +126,7 @@ const HomePage = ({ contract, wallet, dimensions }) => {
         <p style={{ color: "#cccccc", fontSize: "16px", lineHeight: "175%" }}>
           Although Americans Flags NFT takes inspiration from its namesake
           project, he hope is to expand this project beyond the United States
-          and creaing templtes allowings citizens of the globe to express what
+          and creating templates allowing citizens of the globe to express what
           their country means to them through the adaptation of their respective
           national flags.
         </p>

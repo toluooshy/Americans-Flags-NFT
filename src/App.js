@@ -1,47 +1,74 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import { Routes, Route } from "react-router-dom";
+import Web3 from "web3";
+import axios from "axios";
+
+import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
 import MintPage from "./pages/MintPage";
 import ViewPage from "./pages/ViewPage";
-import { Route, Routes } from "react-router-dom";
-import Header from "./components/Header";
-import Web3 from "web3";
-import { address, abi } from "./contracts/AFN_Contract/contract";
-import { useWindowDimensions } from "./utils/CustomHooks";
-import axios from "axios";
 import LoadingObject from "./components/LoadingObject";
 
-const web3 = new Web3(Web3.givenProvider);
-const contract = new web3.eth.Contract(abi, address);
+import { address, abi } from "./contracts/AFN_Contract/contract";
+import { useWindowDimensions } from "./utils/CustomHooks";
 
 function App() {
-  const [wallet, setWallet] = useState();
+  const [wallet, setWallet] = useState(null);
   const [apisReady, setApisReady] = useState(false);
   const dimensions = useWindowDimensions();
 
-  const connectWallet = async () => {
-    async function connectWallet() {
-      const accounts = await web3.eth.requestAccounts();
-      await setWallet(accounts[0]);
+  // Create web3 + contract only once
+  const web3 = useMemo(() => {
+    if (window.ethereum) {
+      return new Web3(window.ethereum);
     }
-    connectWallet();
+    return null;
+  }, []);
+
+  const contract = useMemo(() => {
+    if (!web3) return null;
+    return new web3.eth.Contract(abi, address);
+  }, [web3]);
+
+  // Wallet connection
+  const connectWallet = async () => {
+    try {
+      if (!window.ethereum) {
+        alert("MetaMask is not installed");
+        return;
+      }
+
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      setWallet(accounts[0]);
+    } catch (err) {
+      console.error("Failed to connect wallet:", err);
+    }
   };
 
-  useEffect(async () => {
-    await axios
-      .get(`https://image-grabber-api.herokuapp.com`)
-      .then(async (response) => {
-        const grabberApiRunning =
-          response.data["Root Request"] === 200 ? true : false;
-        await axios
-          .get(`https://flag-generator-api.herokuapp.com`)
-          .then(async (response) => {
-            const generatorApiRunning =
-              response.data["Root Request"] === 200 ? true : false;
+  // Check external APIs
+  useEffect(() => {
+    const checkApis = async () => {
+      try {
+        const [grabber, generator] = await Promise.all([
+          axios.get("https://image-grabber-api.herokuapp.com"),
+          axios.get("https://flag-generator-api.herokuapp.com"),
+        ]);
 
-            setApisReady(grabberApiRunning && generatorApiRunning);
-          });
-      });
+        setApisReady(
+          grabber.data["Root Request"] === 200 &&
+            generator.data["Root Request"] === 200
+        );
+      } catch (err) {
+        console.error("API check failed:", err);
+        setApisReady(false);
+      }
+    };
+
+    checkApis();
   }, []);
 
   return (
@@ -54,7 +81,8 @@ function App() {
         setWallet={setWallet}
         connectWallet={connectWallet}
       />
-      {!!apisReady ? (
+
+      {apisReady ? (
         <Routes>
           <Route
             path="/"
@@ -94,11 +122,6 @@ function App() {
             minHeight: `${dimensions.height + 100}px`,
           }}
         >
-          <br />
-          <br />
-          <br />
-          <br />
-
           <LoadingObject />
         </div>
       )}
